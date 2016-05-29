@@ -1,8 +1,12 @@
 {
   "name": "myers-diff",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Implementation of the longest common subsequence (diff) algorithm.",
   "main": "src/index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/wickedest/myers-diff.git"
+  }
   "scripts": {
     "test": "make test",
     "lint": "make lint",
@@ -11,7 +15,8 @@
   "keywords": [
     "diff",
     "merge",
-    "lcs",
+    "longest-common-subsequence",
+    "shortest-middle-snake",
     "compare",
     "patch"
   ],
