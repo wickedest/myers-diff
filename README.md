@@ -47,17 +47,12 @@ Compare `lhs` text to `rhs` text and returns a list of `Change` items between th
 The `options` are defined as follows:
 
     options: {
-        compare: 'lines',       // lines|words|chars
-        ignoreWhitespace: false,// ignores white space
-        splitLinesRegex: '\n',  // the regex to use when splitting lines
-        splitWordsRegex: '[ ]{1}',// the regex to use when splitting words
-        splitCharsRegex: ''     // the regex to use when splitting chars
+        compare: 'lines',           // lines|words|chars
+        ignoreWhitespace: false,    // ignores white space
+        splitLinesRegex: '\n',      // the regex to use when splitting lines
+        splitWordsRegex: '[ ]{1}',  // the regex to use when splitting words
+        splitCharsRegex: ''         // the regex to use when splitting chars
     }
-    compare: 'lines', // lines|words|chars
-    ignoreWhitespace: false,
-    splitLinesRegex: '\n',
-    splitWordsRegex: '[ ]{1}',
-    splitCharsRegex: ''
 
 Interpreting a `Change` item is as follows:
 
