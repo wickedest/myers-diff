@@ -1,0 +1,34 @@
+{
+  "name": "myers-diff",
+  "version": "1.0.3",
+  "homepage": "https://github.com/wickedest/myers-diff",
+  "description": "A javascript test differentiation implementation based on An O(ND) Difference Algorithm and Its Variations (1986).",
+  "main": "src/index.js",
+  "moduleType": [
+    "es6",
+    "node"
+  ],
+  "keywords": [
+    "diff",
+    "merge",
+    "longest-common-subsequence",
+    "shortest-middle-snake",
+    "compare",
+    "patch"
+  ],
+  "authors": [
+    "jamie.peabody@gmail.com"
+  ],
+  "license": "Apache-2.0",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "devDependencies": {
+    "chai": "~3.5.0",
+    "mocha": "~2.5.3"
+  }
+}
