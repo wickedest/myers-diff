@@ -1,0 +1,25 @@
+{
+  "name": "myers-diff",
+  "version": "1.0.1",
+  "description": "Implementation of the longest common subsequence (diff) algorithm.",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "make test",
+    "lint": "make lint",
+    "doc": "make doc"
+  },
+  "keywords": [
+    "diff",
+    "merge",
+    "lcs",
+    "compare",
+    "patch"
+  ],
+  "author": "Jamie Peabody <jamie.peabody@gmail.com> (http://mergely.com/)",
+  "license": "Apache-2.0",
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "mocha": "^2.5.3",
+    "nodelint": "^0.6.2"
+  }
+}
