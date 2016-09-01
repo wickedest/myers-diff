@@ -1,0 +1,12 @@
+{
+    "plugins": [
+        "mocha",
+        "chai-expect"
+    ],
+    "parser": "babel-eslint",
+    "extends": ["eslint:recommended", "plugin:mocha/recommended"],
+    "env": {
+        "node": true,
+        "mocha": true
+    }
+}

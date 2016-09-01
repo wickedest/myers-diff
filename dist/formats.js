@@ -1,7 +1,15 @@
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
 // NormalFormat
 // http://www.gnu.org/software/diffutils/manual/html_node/Example-Normal.html#Example-Normal
-function GnuNormalFormat (item) {
-    var i, nf = [], op, str = [];
+function _GnuNormalFormat(item) {
+    var i,
+        nf = [],
+        op,
+        str = [];
 
     // del add description
     // 0   >0  added count to rhs
@@ -9,11 +17,9 @@ function GnuNormalFormat (item) {
     // >0  >0  changed count lines
     if (item.lhs.del === 0 && item.rhs.add > 0) {
         op = 'a';
-    }
-    else if (item.lhs.del > 0 && item.rhs.add === 0) {
+    } else if (item.lhs.del > 0 && item.rhs.add === 0) {
         op = 'd';
-    }
-    else {
+    } else {
         op = 'c';
     }
 
@@ -43,13 +49,14 @@ function GnuNormalFormat (item) {
 }
 
 var formats = {
-    GnuNormalFormat: function (items) {
-        var i, out = [];
+    GnuNormalFormat: function GnuNormalFormat(items) {
+        var i,
+            out = [];
         for (i = 0; i < items.length; ++i) {
-            out.push(GnuNormalFormat(items[i]));
+            out.push(_GnuNormalFormat(items[i]));
         }
         return out.join('\n') + '\n';
     }
-}
+};
 
-export default formats;
+exports.default = formats;

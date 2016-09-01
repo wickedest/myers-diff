@@ -25,7 +25,8 @@
     "node_modules",
     "bower_components",
     "test",
-    "tests"
+    "tests",
+    "coverage"
   ],
   "devDependencies": {
     "chai": "~3.5.0",

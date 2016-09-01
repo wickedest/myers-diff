@@ -5,18 +5,19 @@ A javascript test differentiation implementation based on [An O(ND) Difference A
 ## Installation
     npm install myers-diff
 or
-
     bower install myers-diff
 
 ## Example
+    const myers = require('myers-diff').default;
 
-    var myers = require('../'),
-    formats = require('../src/formats');
     var lhs = 'the quick red fox jumped\nover the hairy dog',
         rhs = 'the quick brown fox jumped\nover the lazy dog',
         diff;
+
     diff = myers.diff(lhs, rhs, {});
-    console.log(formats.GnuNormalFormat(diff));
+
+    console.log(myers.formats.GnuNormalFormat(diff));
+    console.log(diff);
     //
     // 1,2c1,2
     // < the quick red fox jumped
