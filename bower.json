@@ -1,6 +1,6 @@
 {
   "name": "myers-diff",
-  "version": "1.0.3",
+  "version": "1.0.5",
   "homepage": "https://github.com/wickedest/myers-diff",
   "description": "A javascript test differentiation implementation based on An O(ND) Difference Algorithm and Its Variations (1986).",
   "main": "src/index.js",

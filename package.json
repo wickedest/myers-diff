@@ -1,7 +1,7 @@
 {
   "name": "myers-diff",
   "author": "Jamie Peabody",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "Implementation of the longest common subsequence (diff) algorithm.",
   "main": "dist/index.js",
   "keywords": [
