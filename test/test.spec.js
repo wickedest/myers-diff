@@ -350,3 +350,161 @@ describe('#diff', function() {
 
     });
 });
+
+describe('#diff', function() {
+    describe('compare chars', function() {
+        it('compare change chars start-string', function() {
+            var changes = diff(
+                'the quick red fox jumped',
+                'The quick red fox jumped',
+                {compare: 'chars'}
+            ), change;
+
+            expect(changes.length).to.equal(1);
+
+            change = changes[0];
+
+            expect(change.lhs.at).to.equal(0);
+            expect(change.lhs.del).to.be.equal(1);
+
+            expect(change.rhs.at).to.equal(0);
+            expect(change.rhs.add).to.be.equal(1);
+        });
+
+        it('compare change chars end-string', function() {
+            var changes = diff(
+                'the quick red fox jumped',
+                'the quick red fox Jumped',
+                {compare: 'chars'}
+            ), change;
+
+            expect(changes.length).to.equal(1);
+
+            change = changes[0];
+
+            expect(change.lhs.at).to.equal(18);
+            expect(change.lhs.del).to.be.equal(1);
+
+            expect(change.rhs.at).to.equal(18);
+            expect(change.rhs.add).to.be.equal(1);
+        });
+
+        it('compare change chars mid-string', function() {
+            var changes = diff(
+                'the quick red fox jumped',
+                'the quick RED fox jumped',
+                {compare: 'chars'}
+            ), change;
+
+            expect(changes.length).to.equal(1);
+
+            change = changes[0];
+
+            expect(change.lhs.at).to.equal(10);
+            expect(change.lhs.del).to.be.equal(3);
+
+            expect(change.rhs.at).to.equal(10);
+            expect(change.rhs.add).to.be.equal(3);
+        });
+
+        it('compare add chars start-string', function() {
+            var changes = diff(
+                'the quick red fox jumped',
+                '*the quick red fox jumped',
+                {compare: 'chars'}
+            ), change;
+
+            expect(changes.length).to.equal(1);
+
+            change = changes[0];
+
+            expect(change.lhs.at).to.equal(0);
+            expect(change.lhs.del).to.be.equal(0);
+
+            expect(change.rhs.at).to.equal(0);
+            expect(change.rhs.add).to.be.equal(1);
+        });
+
+        it('compare add chars end-string', function() {
+            var changes = diff(
+                'the quick red fox jumped',
+                'the quick red fox jumped*',
+                {compare: 'chars'}
+            ), change;
+
+            expect(changes.length).to.equal(1);
+
+            change = changes[0];
+
+            expect(change.lhs.at).to.equal(23);
+            expect(change.lhs.del).to.be.equal(0);
+
+            expect(change.rhs.at).to.equal(24);
+            expect(change.rhs.add).to.be.equal(1);
+        });
+
+        it('compare del chars start-string', function() {
+            var changes = diff(
+                '*the quick red fox jumped',
+                'the quick red fox jumped',
+                {compare: 'chars'}
+            ), change;
+
+            expect(changes.length).to.equal(1);
+
+            change = changes[0];
+
+            expect(change.lhs.at).to.equal(0);
+            expect(change.lhs.del).to.be.equal(1);
+
+            expect(change.rhs.at).to.equal(0);
+            expect(change.rhs.add).to.be.equal(0);
+        });
+
+        it('compare del chars end-string', function() {
+            var changes = diff(
+                'the quick red fox jumped*',
+                'the quick red fox jumped',
+                {compare: 'chars'}
+            ), change;
+
+            expect(changes.length).to.equal(1);
+
+            change = changes[0];
+
+            expect(change.lhs.at).to.equal(24);
+            expect(change.lhs.del).to.be.equal(1);
+
+            expect(change.rhs.at).to.equal(23);
+            expect(change.rhs.add).to.be.equal(0);
+        });
+
+        it('compare chars', function() {
+            var changes = diff(
+                'the quick red fox jumped',
+                'the quick orange fox jumped',
+                {compare: 'chars'}
+            ), change;
+
+            expect(changes.length).to.equal(3);
+
+            // adds an 'o' to the rhs
+            expect(changes[0].lhs.at).to.equal(10);
+            expect(changes[0].lhs.del).to.be.equal(0);
+            expect(changes[0].rhs.at).to.equal(10);
+            expect(changes[0].rhs.add).to.be.equal(1);
+
+            // adds an 'ang' to the rhs
+            expect(changes[1].lhs.at).to.equal(11);
+            expect(changes[1].lhs.del).to.be.equal(0);
+            expect(changes[1].rhs.at).to.equal(12);
+            expect(changes[1].rhs.add).to.be.equal(3);
+
+            // deletes a 'd' from the lhs
+            expect(changes[2].lhs.at).to.equal(12);
+            expect(changes[2].lhs.del).to.be.equal(1);
+            expect(changes[2].rhs.at).to.equal(16);
+            expect(changes[2].rhs.add).to.be.equal(0);
+        });
+    });
+});
