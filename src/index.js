@@ -37,16 +37,6 @@ module.exports = {
 	 */
 
 	/**
-	 * @typedef {object} Options
-	 *
-	 * @property {boolean} [ignoreWhitespace=false] - Ignores whitespace.
-	 * @property {boolean} [ignoreCase=false] - Ignores case.
-	 * @property {boolean} [ignore=false] - Ignores accents.
-	 * @property {string} [compare='lines'] - The type of comparison; one of:
-	 * 'chars', 'words', or 'lines' (default).
-	 */
-
-	/**
 	 * @callback
 	 * @name diff
 	 * @description
@@ -54,9 +44,14 @@ module.exports = {
 	 * to right such that items are deleted from left, or added to right,
 	 * or just otherwise changed between them.
 	 * 
-	 * @param   {string} lhs - The left-hand source text.
-	 * @param   {string} rhs - The right-hand source text.
-	 * @param   {Options} [options={}] - Optional settings.
+	 * @param {string} lhs - The left-hand source text.
+	 * @param {string} rhs - The right-hand source text.
+	 * @param {object} [options={}] - Optional settings.
+	 * @param {boolean} [options.ignoreWhitespace=false] - Ignores whitespace.
+	 * @param {boolean} [options.ignoreCase=false] - Ignores case.
+	 * @param {boolean} [options.ignore=false] - Ignores accents.
+	 * @param {string} [options.compare='lines'] - The type of comparison; one of:
+	 * 'chars', 'words', or 'lines' (default).
 	 * @return {Change[]} An array of change objects
 	 * @example
 	 * const myers = require('myers-diff');

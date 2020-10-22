@@ -44,8 +44,6 @@ console.log(diff);
 <dt><a href="#myers">myers</a> : <code>object</code></dt>
 <dd><p>Main module exports.</p>
 </dd>
-<dt><a href="#Options">Options</a> : <code>object</code></dt>
-<dd></dd>
 <dt><a href="#diff">diff</a> ⇒ <code><a href="#Change">Array.&lt;Change&gt;</a></code></dt>
 <dd><p>Compare <code>lhs</code> to <code>rhs</code>.  Changes are compared from left
 to right such that items are deleted from left, or added to right,
@@ -110,19 +108,6 @@ Main module exports.
 | diff | [<code>diff</code>](#diff) | 
 | formats | [<code>formats</code>](#formats) | 
 
-<a name="Options"></a>
-
-### Options : <code>object</code>
-**Kind**: global typedef  
-**Properties**
-
-| Name | Type | Default | Description |
-| --- | --- | --- | --- |
-| [ignoreWhitespace] | <code>boolean</code> | <code>false</code> | Ignores whitespace. |
-| [ignoreCase] | <code>boolean</code> | <code>false</code> | Ignores case. |
-| [ignore] | <code>boolean</code> | <code>false</code> | Ignores accents. |
-| [compare] | <code>string</code> | <code>&quot;&#x27;lines&#x27;&quot;</code> | The type of comparison; one of: 'chars', 'words', or 'lines' (default). |
-
 <a name="diff"></a>
 
 ### diff ⇒ [<code>Array.&lt;Change&gt;</code>](#Change)
@@ -137,7 +122,11 @@ or just otherwise changed between them.
 | --- | --- | --- | --- |
 | lhs | <code>string</code> |  | The left-hand source text. |
 | rhs | <code>string</code> |  | The right-hand source text. |
-| [options] | [<code>Options</code>](#Options) | <code>{}</code> | Optional settings. |
+| [options] | <code>object</code> | <code>{}</code> | Optional settings. |
+| [options.ignoreWhitespace] | <code>boolean</code> | <code>false</code> | Ignores whitespace. |
+| [options.ignoreCase] | <code>boolean</code> | <code>false</code> | Ignores case. |
+| [options.ignore] | <code>boolean</code> | <code>false</code> | Ignores accents. |
+| [options.compare] | <code>string</code> | <code>&quot;&#x27;lines&#x27;&quot;</code> | The type of comparison; one of: 'chars', 'words', or 'lines' (default). |
 
 **Example**  
 ```js
