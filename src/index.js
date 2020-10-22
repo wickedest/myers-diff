@@ -29,7 +29,15 @@ module.exports = {
 	 */
 
 	/**
-	 * @function
+	 * Main module exports.
+	 * @typedef {object} myers
+	 *
+	 * @property {diff} diff
+	 * @property {formats} formats
+	 */
+
+	/**
+	 * @callback
 	 * @name diff
 	 * @description
 	 * Compare {@code lhs} to {@code rhs}.  Changes are compared from left
@@ -40,17 +48,23 @@ module.exports = {
 	 * @param   {string} rhs - The right-hand source text.
 	 * @param   {object} [options={}] - Optional settings.
 	 * @return {Change[]} An array of change objects
+	 * @example
+	 * const myers = require('myers-diff');
+	 * const changes = myers.diff(lhs, rhs);
 	 */
 	diff,
 
 	/**
-	 * @function
+	 * @callback
 	 * @name GnuNormalFormat
 	 * @description
 	 * Formats a diff in GNU normal format.
 	 * 
 	 * @param   {Change[]} changes - The array of changes to format.
 	 * @return {string} A diff in GNU normal format.
+	 * @example
+	 * const myers = require('myers-diff');
+	 * console.log(myers.formats.GnuNormalFormat(changes));
 	 */
 	/**
 	 * @typedef {object} formats

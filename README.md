@@ -29,19 +29,6 @@ console.log(diff);
 ```
 
 ## API
-### Functions
-
-<dl>
-<dt><a href="#diff">diff(lhs, rhs, [options])</a> ⇒ <code><a href="#Change">Array.&lt;Change&gt;</a></code></dt>
-<dd><p>Compare {@code lhs} to {@code rhs}.  Changes are compared from left
-to right such that items are deleted from left, or added to right,
-or just otherwise changed between them.</p>
-</dd>
-<dt><a href="#GnuNormalFormat">GnuNormalFormat(changes)</a> ⇒ <code>string</code></dt>
-<dd><p>Formats a diff in GNU normal format.</p>
-</dd>
-</dl>
-
 ### Typedefs
 
 <dl>
@@ -54,37 +41,20 @@ or just otherwise changed between them.</p>
 <dt><a href="#EncoderContext">EncoderContext</a> : <code>object</code></dt>
 <dd><p>Encoder context</p>
 </dd>
+<dt><a href="#myers">myers</a> : <code>object</code></dt>
+<dd><p>Main module exports.</p>
+</dd>
+<dt><a href="#diff">diff</a> ⇒ <code><a href="#Change">Array.&lt;Change&gt;</a></code></dt>
+<dd><p>Compare {@code lhs} to {@code rhs}.  Changes are compared from left
+to right such that items are deleted from left, or added to right,
+or just otherwise changed between them.</p>
+</dd>
+<dt><a href="#GnuNormalFormat">GnuNormalFormat</a> ⇒ <code>string</code></dt>
+<dd><p>Formats a diff in GNU normal format.</p>
+</dd>
 <dt><a href="#formats">formats</a> : <code>object</code></dt>
 <dd></dd>
 </dl>
-
-<a name="diff"></a>
-
-### diff(lhs, rhs, [options]) ⇒ [<code>Array.&lt;Change&gt;</code>](#Change)
-Compare {@code lhs} to {@code rhs}.  Changes are compared from left
-to right such that items are deleted from left, or added to right,
-or just otherwise changed between them.
-
-**Kind**: global function  
-**Returns**: [<code>Array.&lt;Change&gt;</code>](#Change) - An array of change objects  
-
-| Param | Type | Default | Description |
-| --- | --- | --- | --- |
-| lhs | <code>string</code> |  | The left-hand source text. |
-| rhs | <code>string</code> |  | The right-hand source text. |
-| [options] | <code>object</code> | <code>{}</code> | Optional settings. |
-
-<a name="GnuNormalFormat"></a>
-
-### GnuNormalFormat(changes) ⇒ <code>string</code>
-Formats a diff in GNU normal format.
-
-**Kind**: global function  
-**Returns**: <code>string</code> - A diff in GNU normal format.  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| changes | [<code>Array.&lt;Change&gt;</code>](#Change) | The array of changes to format. |
 
 <a name="Change"></a>
 
@@ -125,6 +95,57 @@ Encoder context
 | --- | --- | --- |
 | getPart | <code>function</code> | Gets a part. |
 
+<a name="myers"></a>
+
+### myers : <code>object</code>
+Main module exports.
+
+**Kind**: global typedef  
+**Properties**
+
+| Name | Type |
+| --- | --- |
+| diff | [<code>diff</code>](#diff) | 
+| formats | [<code>formats</code>](#formats) | 
+
+<a name="diff"></a>
+
+### diff ⇒ [<code>Array.&lt;Change&gt;</code>](#Change)
+Compare {@code lhs} to {@code rhs}.  Changes are compared from left
+to right such that items are deleted from left, or added to right,
+or just otherwise changed between them.
+
+**Kind**: global typedef  
+**Returns**: [<code>Array.&lt;Change&gt;</code>](#Change) - An array of change objects  
+
+| Param | Type | Default | Description |
+| --- | --- | --- | --- |
+| lhs | <code>string</code> |  | The left-hand source text. |
+| rhs | <code>string</code> |  | The right-hand source text. |
+| [options] | <code>object</code> | <code>{}</code> | Optional settings. |
+
+**Example**  
+```js
+const myers = require('myers-diff');
+const changes = myers.diff(lhs, rhs);
+```
+<a name="GnuNormalFormat"></a>
+
+### GnuNormalFormat ⇒ <code>string</code>
+Formats a diff in GNU normal format.
+
+**Kind**: global typedef  
+**Returns**: <code>string</code> - A diff in GNU normal format.  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| changes | [<code>Array.&lt;Change&gt;</code>](#Change) | The array of changes to format. |
+
+**Example**  
+```js
+const myers = require('myers-diff');
+console.log(myers.formats.GnuNormalFormat(changes));
+```
 <a name="formats"></a>
 
 ### formats : <code>object</code>
