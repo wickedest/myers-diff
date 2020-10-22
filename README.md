@@ -1,6 +1,6 @@
 # myers-diff
 
-A javascript test differentiation implementation based on [An O(ND) Difference Algorithm and Its Variations (1986)](http://www.xmailserver.org/diff2.pdf).  It is a lightweight, no-frills implementation.
+A javascript test differentiation implementation based on [An O(ND) Difference Algorithm and Its Variations (1986)](www.xmailserver.org/diff2.pdf).  It is a lightweight, no-frills implementation.
 
 ## Installation
 ```bash
@@ -45,7 +45,7 @@ console.log(diff);
 <dd><p>Main module exports.</p>
 </dd>
 <dt><a href="#diff">diff</a> ⇒ <code><a href="#Change">Array.&lt;Change&gt;</a></code></dt>
-<dd><p>Compare {@code lhs} to {@code rhs}.  Changes are compared from left
+<dd><p>Compare <code>lhs</code> to <code>rhs</code>.  Changes are compared from left
 to right such that items are deleted from left, or added to right,
 or just otherwise changed between them.</p>
 </dd>
@@ -111,7 +111,7 @@ Main module exports.
 <a name="diff"></a>
 
 ### diff ⇒ [<code>Array.&lt;Change&gt;</code>](#Change)
-Compare {@code lhs} to {@code rhs}.  Changes are compared from left
+Compare `lhs` to `rhs`.  Changes are compared from left
 to right such that items are deleted from left, or added to right,
 or just otherwise changed between them.
 
