@@ -1,6 +1,6 @@
 # myers-diff
 
-A javascript test differentiation implementation based on [An O(ND) Difference Algorithm and Its Variations (1986)](www.xmailserver.org/diff2.pdf).  It is a lightweight, no-frills implementation.
+A javascript test differentiation implementation based on [An O(ND) Difference Algorithm and Its Variations (1986)](http://www.xmailserver.org/diff2.pdf).  It is a lightweight, no-frills implementation.
 
 ## Installation
 ```bash

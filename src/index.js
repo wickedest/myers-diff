@@ -40,7 +40,7 @@ module.exports = {
 	 * @callback
 	 * @name diff
 	 * @description
-	 * Compare {@code lhs} to {@code rhs}.  Changes are compared from left
+	 * Compare `lhs` to `rhs`.  Changes are compared from left
 	 * to right such that items are deleted from left, or added to right,
 	 * or just otherwise changed between them.
 	 * 
