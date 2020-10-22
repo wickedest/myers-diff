@@ -1,6 +1,6 @@
 // NormalFormat
 // http://www.gnu.org/software/diffutils/manual/html_node/Example-Normal.html#Example-Normal
-function GnuNormalFormat(item) {
+function GnuNormalFormat(change) {
 	const nf = [];
 	const str = [];
 
@@ -9,10 +9,10 @@ function GnuNormalFormat(item) {
 	// >0  0   deleted count from lhs
 	// >0  >0  changed count lines
 	let op;
-	if (item.lhs.del === 0 && item.rhs.add > 0) {
+	if (change.lhs.del === 0 && change.rhs.add > 0) {
 		op = 'a';
 	}
-	else if (item.lhs.del > 0 && item.rhs.add === 0) {
+	else if (change.lhs.del > 0 && change.rhs.add === 0) {
 		op = 'd';
 	}
 	else {
@@ -27,28 +27,28 @@ function GnuNormalFormat(item) {
 			str.push(side[key] + side.at);
 		}
 	}
-	encodeSide(item.lhs, 'del');
+	encodeSide(change.lhs, 'del');
 	str.push(op);
-	encodeSide(item.rhs, 'add');
+	encodeSide(change.rhs, 'add');
 
 	nf.push(str.join(''));
-	for (let i = item.lhs.at; i < item.lhs.at + item.lhs.del; ++i) {
-		nf.push('< ' + item.lhs.ctx.getPart(i).text);
+	for (let i = change.lhs.at; i < change.lhs.at + change.lhs.del; ++i) {
+		nf.push('< ' + change.lhs.ctx.getPart(i).text);
 	}
-	if (item.rhs.add && item.lhs.del) {
+	if (change.rhs.add && change.lhs.del) {
 		nf.push('---');
 	}
-	for (let i = item.rhs.at; i < item.rhs.at + item.rhs.add; ++i) {
-		nf.push('> ' + item.rhs.ctx.getPart(i).text);
+	for (let i = change.rhs.at; i < change.rhs.at + change.rhs.add; ++i) {
+		nf.push('> ' + change.rhs.ctx.getPart(i).text);
 	}
 	return nf.join('\n');
 }
 
 var formats = {
-	GnuNormalFormat: function (items) {
+	GnuNormalFormat: function (changes) {
 		var i, out = [];
-		for (i = 0; i < items.length; ++i) {
-			out.push(GnuNormalFormat(items[i]));
+		for (i = 0; i < changes.length; ++i) {
+			out.push(GnuNormalFormat(changes[i]));
 		}
 		return out.join('\n') + '\n';
 	}

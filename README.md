@@ -3,75 +3,135 @@
 A javascript test differentiation implementation based on [An O(ND) Difference Algorithm and Its Variations (1986)](www.xmailserver.org/diff2.pdf).  It is a lightweight, no-frills implementation.
 
 ## Installation
-	npm install myers-diff
-or
-	bower install myers-diff
+```bash
+$ npm install myers-diff
+```
 
-## Example
+## Basic usage
 
 ```js
-	const myers = require('myers-diff');
+const myers = require('myers-diff');
 
-	const lhs = 'the quick red fox jumped\nover the hairy dog';
-	const rhs = 'the quick brown fox jumped\nover the lazy dog';
+const lhs = 'the quick red fox jumped\nover the hairy dog';
+const rhs = 'the quick brown fox jumped\nover the lazy dog';
 
-	const diff = myers.diff(lhs, rhs, {});
+const diff = myers.diff(lhs, rhs, {});
 
-	console.log(myers.formats.GnuNormalFormat(diff));
-	console.log(diff);
-	//
-	// 1,2c1,2
-	// < the quick red fox jumped
-	// < over the hairy dog
-	// ---
-	// > the quick brown fox jumped
-	// > over the lazy dog
+console.log(myers.formats.GnuNormalFormat(diff));
+console.log(diff);
+//
+// 1,2c1,2
+// < the quick red fox jumped
+// < over the hairy dog
+// ---
+// > the quick brown fox jumped
+// > over the lazy dog
 ```
 
 ## API
+### Functions
 
-### myers.diff(_lhs_, _rhs_, _options_)
+<dl>
+<dt><a href="#diff">diff(lhs, rhs, [options])</a> ⇒ <code><a href="#Change">Array.&lt;Change&gt;</a></code></dt>
+<dd><p>Compare {@code lhs} to {@code rhs}.  Changes are compared from left
+to right such that items are deleted from left, or added to right,
+or just otherwise changed between them.</p>
+</dd>
+<dt><a href="#GnuNormalFormat">GnuNormalFormat(changes)</a> ⇒ <code>string</code></dt>
+<dd><p>Formats a diff in GNU normal format.</p>
+</dd>
+</dl>
 
-Compare `lhs` text to `rhs` text and returns an array of [`Change`](#change) items.  The `options` argument is defined as follows:
+### Typedefs
 
-```js
-	options: {
-		compare: 'lines',			// lines|words|chars
-		ignoreWhitespace: false,	// ignores white space
-		splitLinesRegex: '\n',		// the regex to use when splitting lines
-		splitWordsRegex: '[ ]{1}',	// the regex to use when splitting words
-		splitCharsRegex: ''			// the regex to use when splitting chars
-	}
-```
+<dl>
+<dt><a href="#Change">Change</a> : <code>object</code></dt>
+<dd><p>A change.</p>
+</dd>
+<dt><a href="#ChangePair">ChangePair</a> : <code>object</code></dt>
+<dd><p>A change pair</p>
+</dd>
+<dt><a href="#EncoderContext">EncoderContext</a> : <code>object</code></dt>
+<dd><p>Encoder context</p>
+</dd>
+<dt><a href="#formats">formats</a> : <code>object</code></dt>
+<dd></dd>
+</dl>
 
-### Change
-```js
-	Change: {
-		lhs: {
-			at: line_number,	// zero-based index
-			del: count		  // >= 0,
-			ctx: context		// diff Context
-		},
-		rhs: {
-			at: line_number,	// zero-based index
-			add: count		  // >= 0,
-			ctx: context		// diff Context
-		}
-	}
-```
+<a name="diff"></a>
 
-Interpreting a `Change` item is as follows:
+### diff(lhs, rhs, [options]) ⇒ [<code>Array.&lt;Change&gt;</code>](#Change)
+Compare {@code lhs} to {@code rhs}.  Changes are compared from left
+to right such that items are deleted from left, or added to right,
+or just otherwise changed between them.
 
-|del|add|description|
-|-----|-----|----|
-|0|>0|added `count` to rhs|
-|>0|0|deleted `count` from lhs|
-|>0|>0|changed `count` lines|
+**Kind**: global function  
+**Returns**: [<code>Array.&lt;Change&gt;</code>](#Change) - An array of change objects  
 
-### Context
+| Param | Type | Default | Description |
+| --- | --- | --- | --- |
+| lhs | <code>string</code> |  | The left-hand source text. |
+| rhs | <code>string</code> |  | The right-hand source text. |
+| [options] | <code>object</code> | <code>{}</code> | Optional settings. |
 
+<a name="GnuNormalFormat"></a>
 
+### GnuNormalFormat(changes) ⇒ <code>string</code>
+Formats a diff in GNU normal format.
 
-### Context.getLine(_n_)
+**Kind**: global function  
+**Returns**: <code>string</code> - A diff in GNU normal format.  
 
-Gets the value of line at zer-based index `n`.
+| Param | Type | Description |
+| --- | --- | --- |
+| changes | [<code>Array.&lt;Change&gt;</code>](#Change) | The array of changes to format. |
+
+<a name="Change"></a>
+
+### Change : <code>object</code>
+A change.
+
+**Kind**: global typedef  
+**Properties**
+
+| Name | Type | Description |
+| --- | --- | --- |
+| at | <code>number</code> | The index where the change occurs. |
+| del | <code>number</code> | The number of parts changed. |
+| ctx | [<code>EncoderContext</code>](#EncoderContext) | The encoder context. |
+
+<a name="ChangePair"></a>
+
+### ChangePair : <code>object</code>
+A change pair
+
+**Kind**: global typedef  
+**Properties**
+
+| Name | Type | Description |
+| --- | --- | --- |
+| lhs | [<code>Change</code>](#Change) | The left-hand document that was compared. |
+| rhs | [<code>Change</code>](#Change) | The right-hand document that was compared. |
+
+<a name="EncoderContext"></a>
+
+### EncoderContext : <code>object</code>
+Encoder context
+
+**Kind**: global typedef  
+**Properties**
+
+| Name | Type | Description |
+| --- | --- | --- |
+| getPart | <code>function</code> | Gets a part. |
+
+<a name="formats"></a>
+
+### formats : <code>object</code>
+**Kind**: global typedef  
+**Properties**
+
+| Name | Type |
+| --- | --- |
+| GnuNormalFormat | [<code>GnuNormalFormat</code>](#GnuNormalFormat) | 
+

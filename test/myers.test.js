@@ -1,6 +1,6 @@
 const fs = require('fs');
 const { expect } = require('chai');
-const { diff, formats } = require('../src/');
+const { diff, formats, changecmp } = require('../src/');
 
 describe('#diff', function() {
 	it('illegal argument "lhs"', function() {
@@ -41,12 +41,14 @@ describe('#diff', function() {
 		expect(change.lhs.del).to.be.equal(1);
 		expect(change.lhs.ctx.getPart(change.lhs.at).text)
 			.to.equal('the quick red fox jumped');
+		expect(changecmp(change.lhs)).to.be.below(0); // deleted
 
 		// rhs changed at index 0, add 1 line, to index 0
 		expect(change.rhs.at).to.equal(0);
 		expect(change.rhs.add).to.be.equal(1);
 		expect(change.rhs.ctx.getPart(change.rhs.at).text)
 			.to.equal('the quick brown fox jumped');
+		expect(changecmp(change.rhs)).to.be.above(0); // added
 
 		expect(formats.GnuNormalFormat(changes)).to.equal(
 			[
@@ -71,10 +73,12 @@ describe('#diff', function() {
 		// lhs did not change
 		expect(change.lhs.at).to.equal(0);
 		expect(change.lhs.del).to.be.equal(0);
+		expect(changecmp(change.lhs)).to.equal(0); // same
 
 		// rhs changed at index 0, add 1 line, to index 0
 		expect(change.rhs.at).to.equal(1);
 		expect(change.rhs.add).to.be.equal(1);
+		expect(changecmp(change.rhs)).to.be.above(0); // added
 
 		expect(formats.GnuNormalFormat(changes)).to.equal(
 			[
