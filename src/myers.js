@@ -95,10 +95,6 @@ class EncodeContext {
 	get modified() {
 		return this._modified;
 	}
-
-	getPart(n) {
-		return this._parts[n];
-	}
 }
 
 class Myers {
@@ -333,9 +329,7 @@ class Myers {
 
 		// compare lhs/rhs codes and build a list of comparisons
 		const changes = [];
-		const compare = (options.compare === 'chars')
-			? 0 : (options.compare === 'words')
-			? 1 : 2;
+		const compare = (options.compare === 'chars') ? 0 : 1;
 
 		Myers.CompareLCS(
 			lhsCtx, rhsCtx,
@@ -348,9 +342,27 @@ class Myers {
 				if (compare === 0) {
 					item.lhs.length = item.lhs.del;
 					item.rhs.length = item.rhs.add;
-				} else if (compare === 1) {
-					item.lhs.length = item.lhs.text.length;
-					item.rhs.length = item.rhs.text.length;
+				} else {
+					// words and lines
+					item.lhs.length = 0;
+					if (item.lhs.del) {
+						// get the index of the second-last item being deleted,
+						// plus its length, minus the start pos.
+						const i = item.lhs.at + item.lhs.del - 1;
+						const part = lhsCtx._parts[i];
+						item.lhs.length = part.pos + part.text.length
+							- lhsCtx._parts[item.lhs.at].pos;
+					}
+
+					item.rhs.length = 0;
+					if (item.rhs.add) {
+						// get the index of the second-last item being added,
+						// plus its length, minus the start pos.
+						const i = item.rhs.at + item.rhs.add - 1;
+						const part = rhsCtx._parts[i];
+						item.rhs.length = part.pos + part.text.length
+							- rhsCtx._parts[item.rhs.at].pos;
+					}
 				}
 				changes.push(item);
 			}

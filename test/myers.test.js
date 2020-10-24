@@ -1,17 +1,17 @@
 const fs = require('fs');
 const { expect } = require('chai');
-const { diff, formats, changecmp } = require('../src/');
+const { diff, formats, changed } = require('../src/');
 
 describe('#diff', function() {
-	it('illegal argument "lhs"', function() {
+	it('should throw illegal argument "lhs"', function() {
 		expect(diff).to.throw(Error, /illegal argument 'lhs'/);
 	});
 
-	it('illegal argument "rhs"', function() {
+	it('should throw illegal argument "rhs"', function() {
 		expect(diff.bind(diff, 'lhs')).to.throw(Error, /illegal argument 'rhs'/);
 	});
 
-	it('one line, no changes', function() {
+	it('should compare one line, no changes', function() {
 		const { changes } = diff(
 			'the quick red fox jumped',
 			'the quick red fox jumped'
@@ -19,7 +19,7 @@ describe('#diff', function() {
 		expect(changes.length).to.equal(0);
 	});
 
-	it('two lines, no changes', function() {
+	it('should compare two lines, no changes', function() {
 		const { changes } = diff(
 			'the quick red fox jumped\nover the lazy dog',
 			'the quick red fox jumped\nover the lazy dog'
@@ -27,29 +27,30 @@ describe('#diff', function() {
 		expect(changes.length).to.equal(0);
 	});
 
-	it('one line changed', function() {
+	it('should compare one line changed', function() {
 		const { changes } = diff(
 			'the quick red fox jumped', 
 			'the quick brown fox jumped'
 		);
 
 		expect(changes).to.have.length(1);
-		const change = changes[0];
-
-		// lhs changed at index 0, del 1 line, to index 0
-		expect(change.lhs.at).to.equal(0);
-		expect(change.lhs.del).to.be.equal(1);
-		expect(change.lhs.ctx.getPart(change.lhs.at).text)
-			.to.equal('the quick red fox jumped');
-		expect(changecmp(change.lhs)).to.be.below(0); // deleted
-
-		// rhs changed at index 0, add 1 line, to index 0
-		expect(change.rhs.at).to.equal(0);
-		expect(change.rhs.add).to.be.equal(1);
-		expect(change.rhs.ctx.getPart(change.rhs.at).text)
-			.to.equal('the quick brown fox jumped');
-		expect(changecmp(change.rhs)).to.be.above(0); // added
-
+		const [ first ] = changes;
+		expect(changed(first.lhs)).to.be.true;
+		expect(first.lhs).to.deep.include({
+			at: 0, // part
+			del: 1, // parts deleted
+			pos: 0, // index
+			text: 'the quick red fox jumped',
+			length: 24 // chars
+		});
+		expect(changed(first.rhs)).to.be.true;
+		expect(first.rhs).to.deep.include({
+			at: 0, // part
+			add: 1, // parts added
+			pos: 0, // index
+			text: 'the quick brown fox jumped',
+			length: 26 // chars
+		});
 		expect(formats.GnuNormalFormat(changes)).to.equal(
 			[
 				'1c1',
@@ -61,25 +62,30 @@ describe('#diff', function() {
 		);
 	});
 
-	it('one line added', function() {
+	it('should compare one line added', function() {
 		const { changes } = diff(
 			'the quick red fox jumped', 
 			'the quick red fox jumped\nover the lazy dog'
 		);
 
 		expect(changes).to.have.length(1);
-		const change = changes[0];
-
-		// lhs did not change
-		expect(change.lhs.at).to.equal(0);
-		expect(change.lhs.del).to.be.equal(0);
-		expect(changecmp(change.lhs)).to.equal(0); // same
-
-		// rhs changed at index 0, add 1 line, to index 0
-		expect(change.rhs.at).to.equal(1);
-		expect(change.rhs.add).to.be.equal(1);
-		expect(changecmp(change.rhs)).to.be.above(0); // added
-
+		const [ first ] = changes;
+		expect(changed(first.lhs)).to.be.false;
+		expect(first.lhs).to.deep.include({
+			at: 0, // part
+			del: 0, // parts deleted
+			pos: 0, // index
+			text: 'the quick red fox jumped',
+			length: 0 // chars
+		});
+		expect(changed(first.rhs)).to.be.true;
+		expect(first.rhs).to.deep.include({
+			at: 1, // part
+			add: 1, // parts added
+			pos: 25, // index
+			text: 'over the lazy dog',
+			length: 17 // chars
+		});
 		expect(formats.GnuNormalFormat(changes)).to.equal(
 			[
 				'1a2',
@@ -89,22 +95,30 @@ describe('#diff', function() {
 		);
 	});
 
-	it('one line removed', function() {
+	it('should compare one line removed', function() {
 		const { changes } = diff(
 			'the quick red fox jumped\nover the hairy dog',
 			'the quick red fox jumped'
 		);
 
 		expect(changes).to.have.length(1);
-		const change = changes[0];
-
-		// lhs changed at at index 1, del 1 line, to index 1
-		expect(change.lhs.at).to.equal(1);
-		expect(change.lhs.del).to.be.equal(1);
-
-		// rhs did not change
-		expect(change.rhs.at).to.equal(0);
-		expect(change.rhs.add).to.be.equal(0);
+		const [ first ] = changes;
+		expect(changed(first.lhs)).to.be.true;
+		expect(first.lhs).to.deep.include({
+			at: 1, // part
+			del: 1, // parts deleted
+			pos: 25, // index
+			text: 'over the hairy dog',
+			length: 18 // chars
+		});
+		expect(changed(first.rhs)).to.be.false;
+		expect(first.rhs).to.deep.include({
+			at: 0, // part
+			add: 0, // parts added
+			pos: 0, // index
+			text: 'the quick red fox jumped',
+			length: 0 // chars
+		});
 
 		expect(formats.GnuNormalFormat(changes)).to.equal(
 			[
@@ -115,54 +129,65 @@ describe('#diff', function() {
 		);
 	});
 
-	it('multi lines', function() {
+	it('should compare over multiple lines', function() {
 		const { changes } = diff(
 			'the quick\n\nbrown fox\n\n\nover the hairy\n\ndog',
 			'the quick\n\nred fox\n\njumped\n\nover the lazy dog\n\n'
 		);
-		let change;
 
 		expect(changes.length).to.equal(4);
+		const [ first, second, third, fourth ] = changes;
 
-		change = changes[0];
+		expect(changed(first.lhs)).to.be.true;
+		expect(first.lhs).to.deep.include({
+			at: 2, // part
+			del: 1, // parts deleted
+			pos: 11, // index
+			text: 'brown fox',
+			length: 9 // chars
+		});
+		expect(changed(first.rhs)).to.be.true;
+		expect(first.rhs).to.deep.include({
+			at: 2, // part
+			add: 1, // parts added
+			pos: 11, // index
+			text: 'red fox',
+			length: 7 // chars
+		});
 
-		// lhs changed at at index 2, del 1 line, to index 2
-		expect(change.lhs.at).to.equal(2);
-		expect(change.lhs.del).to.be.equal(1);
+		expect(changed(second.lhs)).to.be.false;
+		expect(second.lhs).to.deep.include({
+			at: 4, // part
+			del: 0, // parts deleted
+			pos: 22, // index
+			text: '',
+			length: 0 // chars
+		});
+		expect(changed(second.rhs)).to.be.true;
+		expect(second.rhs).to.deep.include({
+			at: 4, // part
+			add: 1, // parts added
+			pos: 20, // index
+			text: 'jumped',
+			length: 6 // chars
+		});
 
-		// rhs changed at at index 2, add 1 line, to index 2
-		expect(change.rhs.at).to.equal(2);
-		expect(change.rhs.add).to.be.equal(1);
-
-		change = changes[1];
-
-		// lhs did not change
-		expect(change.lhs.at).to.equal(4);
-		expect(change.lhs.del).to.be.equal(0);
-
-		// rhs changed at at index 4, add 1 line, to index 4
-		expect(change.rhs.at).to.equal(4);
-		expect(change.rhs.add).to.be.equal(1);
-
-		change = changes[2];
-
-		// lhs changed at at index 5, del 1 line, to index 5
-		expect(change.lhs.at).to.equal(5);
-		expect(change.lhs.del).to.be.equal(1);
-
-		// rhs changed at at index 6, add 2 lines, to index 7
-		expect(change.rhs.at).to.equal(6);
-		expect(change.rhs.add).to.be.equal(2);
-
-		change = changes[3];
-
-		// lhs changed at at index 7, del 1 line, to index 5
-		expect(change.lhs.at).to.equal(7);
-		expect(change.lhs.del).to.be.equal(1);
-
-		// rhs did not change
-		expect(change.rhs.at).to.equal(8);
-		expect(change.rhs.add).to.be.equal(0);
+		expect(changed(third.lhs)).to.be.true;
+		expect(third.lhs).to.deep.include({
+			at: 5, // part
+			del: 1, // parts deleted
+			pos: 23, // index
+			text: 'over the hairy',
+			length: 14 // chars
+		});
+		expect(changed(third.rhs)).to.be.true;
+		expect(third.rhs).to.deep.include({
+			at: 6, // part
+			add: 2, // parts added
+			pos: 28, // index
+			text: 'over the lazy dog',
+			length: 18 // chars
+		});
 
 		// this is actually different from GNU diff and I think the
 		// reason is shift_boundaries.
@@ -186,47 +211,59 @@ describe('#diff', function() {
 		);
 	});
 
-	it('all lines have only changes', function() {
+	it('should compare both lines with only changes', function() {
 		const { changes } = diff(
 			'the quick red fox jumped\nover the hairy dog', 
 			'the quick brown fox jumped\nover the lazy dog'
 		);
-		let change;
 
 		expect(changes).to.have.length(1);
-
-		change = changes[0];
-
-		// lhs changed at at index 0, del 2 line, to index 1
-		expect(change.lhs.at).to.equal(0);
-		expect(change.lhs.del).to.be.equal(2);
-		//expect(change.lhs.to).to.equal(1);
-
-		// 2 line added at line 6
-		expect(change.rhs.at).to.equal(0);
-		expect(change.rhs.add).to.be.equal(2);
+		const [ first ] = changes;
+		expect(changed(first.lhs)).to.be.true;
+		expect(first.lhs).to.deep.include({
+			at: 0, // part
+			del: 2, // parts deleted
+			pos: 0, // index
+			text: 'the quick red fox jumped',
+			length: 43 // chars
+		});
+		expect(changed(first.rhs)).to.be.true;
+		expect(first.rhs).to.deep.include({
+			at: 0, // part
+			add: 2, // parts added
+			pos: 0, // index
+			text: 'the quick brown fox jumped',
+			length: 44 // chars
+		});
 	});
 
-	it('all added to rhs', function() {
+	it('should compare an added line', function() {
 		const { changes } = diff(
 			'',
 			'the\nquick\nred\nfox\njumped\nover\nthe\nlazy\ndog'
 		);
 
 		expect(changes).to.have.length(1);
-
-		let change = changes[0];
-
-		// lhs changed at at index 0, del 1 line, to index 1
-		expect(change.lhs.at).to.equal(0);
-		expect(change.lhs.del).to.be.equal(0);
-
-		// 2 line added at line 6
-		expect(change.rhs.at).to.equal(0);
-		expect(change.rhs.add).to.be.equal(9);
+		const [ first ] = changes;
+		expect(changed(first.lhs)).to.be.false;
+		expect(first.lhs).to.deep.include({
+			at: 0, // part
+			del: 0, // parts deleted
+			pos: null, // index
+			text: null,
+			length: 0 // chars
+		});
+		expect(changed(first.rhs)).to.be.true;
+		expect(first.rhs).to.deep.include({
+			at: 0, // part
+			add: 9, // parts added
+			pos: 0, // index
+			text: 'the',
+			length: 42 // chars
+		});
 	});
 
-	it('many lines repeat', function() {
+	it('should compare many lines that repeat', function() {
 		const { changes } = diff(
 			fs.readFileSync('./test/resources/moons_lhs.txt', 'utf-8'),
 			fs.readFileSync('./test/resources/moons_rhs.txt', 'utf-8')

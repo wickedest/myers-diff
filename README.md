@@ -112,6 +112,7 @@ Describes a left-hand change occurrence.
 - `del` [`<number>`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Number_type) - The number of parts deleted from the left. When comparing lines, it is the number of lines deleted; when comparing words, it is the number of words deleted; when comparing chars, it is the number of chars deleted.
 - `pos` [`<number>`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Number_type) - The zero-based character position of the part from the original text.
 - `text` [`<string>`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#String_type) - The text that was changed.
+- `length` [`<number>`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Number_type) - The number of characters.
 
 <a name="rightpart"></a>
 
@@ -123,6 +124,7 @@ Describes a right-hand change occurrence.
 - `add` [`<number>`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Number_type) - The number of parts added from the right. When comparing lines, it is the number of lines added; when comparing words, it is the number of words added; when comparing chars, it is the number of chars added.
 - `pos` [`<number>`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Number_type) - The zero-based character position of the part from the original text.
 - `text` [`<string>`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#String_type) - The text that was changed.
+- `length` [`<number>`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Number_type) - The number of characters.
 
 <a name="formats"></a>
 

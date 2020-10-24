@@ -1,7 +1,7 @@
 const { expect } = require('chai');
 const { diff } = require('../src/');
 
-describe('compare words', function() {
+describe('options', function() {
 	it('should ignore whitespace', function() {
 		const { changes } = diff(
 			'the quick red fox jumped',
