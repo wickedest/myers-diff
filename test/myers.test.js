@@ -189,6 +189,23 @@ describe('#diff', function() {
 			length: 18 // chars
 		});
 
+		expect(changed(fourth.lhs)).to.be.true;
+		expect(fourth.lhs).to.deep.include({
+			at: 7, // part
+			del: 1, // parts deleted
+			pos: 39, // index
+			text: 'dog',
+			length: 3 // chars
+		});
+		expect(changed(fourth.rhs)).to.be.false;
+		expect(fourth.rhs).to.deep.include({
+			at: 8, // part
+			add: 0, // parts added
+			pos: 47, // index
+			text: '',
+			length: 0 // chars
+		});
+
 		// this is actually different from GNU diff and I think the
 		// reason is shift_boundaries.
 		expect(formats.GnuNormalFormat(changes)).to.equal(

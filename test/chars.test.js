@@ -1,5 +1,5 @@
 const { expect } = require('chai');
-const { diff, formats, changed } = require('../src/');
+const { diff, changed } = require('../src/');
 
 describe('compare chars', function() {
 	it('should compare chars at end of string', function() {
