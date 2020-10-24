@@ -6,9 +6,6 @@
   "main": "src/index.js",
   "keywords": [
     "diff",
-    "merge",
-    "longest-common-subsequence",
-    "shortest-middle-snake",
     "compare",
     "patch"
   ],
@@ -23,7 +20,7 @@
     "nyc": "^15.1.0"
   },
   "files": [
-    "bin",
+    "src",
     "README.md",
     "LICENSE"
   ],
