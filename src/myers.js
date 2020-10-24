@@ -134,17 +134,21 @@ class Myers {
 				if ((lhs_start < lhs_line) || (rhs_start < rhs_line)) {
 					const lat = Math.min(lhs_start, (lhs_codes_length) ? lhs_codes_length - 1 : 0);
 					const rat = Math.min(rhs_start, (rhs_codes_length) ? rhs_codes_length - 1 : 0);
+					const lpart = lhsCtx._parts[Math.min(lhs_start, lhs_codes_length - 1)];
+					const rpart = rhsCtx._parts[Math.min(rhs_start, rhs_codes_length - 1)];
 
 					const item = {
 						lhs: {
 							at: lat,
 							del: lhs_line - lhs_start,
-							pos: lhsCtx._parts[Math.min(lhs_start, lhs_codes_length - 1)]
+							pos: lpart ? lpart.pos : null,
+							text: lpart ? lpart.text : null
 						},
 						rhs: {
 							at: rat,
 							add: rhs_line - rhs_start,
-							pos: rhsCtx._parts[Math.min(rhs_start, rhs_codes_length - 1)]
+							pos: rpart ? rpart.pos : null,
+							text: rpart ? rpart.text : null
 						}
 					};
 					callback(item);
@@ -329,30 +333,25 @@ class Myers {
 
 		// compare lhs/rhs codes and build a list of comparisons
 		const changes = [];
+		const compare = (options.compare === 'chars')
+			? 0 : (options.compare === 'words')
+			? 1 : 2;
+
 		Myers.CompareLCS(
 			lhsCtx, rhsCtx,
 			lhsCtx.modified, lhsCtx.codes, lhsCtx.length,
 			rhsCtx.modified, rhsCtx.codes, rhsCtx.length,
 			function (item) {
 				// add context information
-				item.lhs.ctx = lhsCtx;
-				item.rhs.ctx = rhsCtx;
-
-				// // FIXME: this is mapping only the changes, so the getLines
-				// // is still needed.  Also, this didn't seem to help the diff
-				// // by 'chars' - it's still getting the wrong ones.
-				// const lhsCode = lhsCtx._codes[item.lhs.at];
-				// lhsCtx._parts2[item.lhs.at] = lhsCtx._parts[lhsCode];
-				// const rhsCode = rhsCtx._codes[item.rhs.at];
-				// rhsCtx._parts2[item.rhs.at] = rhsCtx._parts[rhsCode];
-				// item.lhs.part = function () {
-				//	 console.log('code', lhsCode);
-				//	 return lhsCtx._parts3[lhsCode];
-				// };
-				// item.rhs.part = function () {
-				//	 return rhsCtx._parts3[rhsCode];
-				// };
-
+				item.lhs.getPart = (n) => lhsCtx._parts[n];
+				item.rhs.getPart = (n) => rhsCtx._parts[n];
+				if (compare === 0) {
+					item.lhs.length = item.lhs.del;
+					item.rhs.length = item.rhs.add;
+				} else if (compare === 1) {
+					item.lhs.length = item.lhs.text.length;
+					item.rhs.length = item.rhs.text.length;
+				}
 				changes.push(item);
 			}
 		);

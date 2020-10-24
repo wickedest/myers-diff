@@ -1,13 +1,16 @@
 # myers-diff
 
-A javascript test differentiation implementation based on [An O(ND) Difference Algorithm and Its Variations (1986)](www.xmailserver.org/diff2.pdf).  It is a lightweight, no-frills implementation.
+A JavaScript test differentiation implementation based on [An O(ND) Difference Algorithm and Its Variations (1986)](www.xmailserver.org/diff2.pdf).  It is a lightweight, low-level, no-frills library that can be used to build bulkier viewers.
 
 ## Installation
+
 ```bash
 $ npm install myers-diff
 ```
 
-## Basic usage
+## Getting started
+
+With basic usage:
 
 ```js
 const myers = require('myers-diff');
@@ -15,7 +18,7 @@ const myers = require('myers-diff');
 const lhs = 'the quick red fox jumped\nover the hairy dog';
 const rhs = 'the quick brown fox jumped\nover the lazy dog';
 
-const diff = myers.diff(lhs, rhs, {});
+const diff = myers.diff(lhs, rhs);
 
 console.log(myers.formats.GnuNormalFormat(diff));
 console.log(diff);
@@ -28,172 +31,117 @@ console.log(diff);
 // > over the lazy dog
 ```
 
+With all options:
+
+```js
+const myers = require('myers-diff');
+
+const lhs = 'the quick red fox jumped\nover the hairy dog';
+const rhs = 'the quick brown fox jumped\nover the lazy dog';
+
+const diff = myers.diff(lhs, rhs, {
+    compare: 'lines',
+    ignoreWhitespace: false,
+    ignoreCase: false,
+    ignoreAccents: false
+});
+```
+
+For building visual editors:
+
+```js
+const { diff, changed } = require('myers-diff');
+const lhs = 'the quick red fox jumped\nover the hairy dog';
+const rhs = 'the quick brown fox jumped\nover the lazy dog';
+const changes = diff(lhs, rhs);
+
+for (const change of changes) {
+    if (changed(change.lhs)) {
+        // deleted
+        const { pos, text, del, length } = change.lhs;
+    }
+    if (changed(change.rhs)) {
+        // added
+        const { pos, text, add, length } = change.rhs;
+    }
+}
+```
+
 ## API
-### Typedefs
 
-<dl>
-<dt><a href="#myers">myers</a> : <code>object</code></dt>
-<dd><p>Main module exports.</p>
-</dd>
-<dt><a href="#diff">diff</a> ⇒ <code><a href="#Change">Array.&lt;Change&gt;</a></code></dt>
-<dd><p>Compare <code>lhs</code> to <code>rhs</code>.  Changes are compared from left
-to right such that items are deleted from left, or added to right,
-or just otherwise changed between them.</p>
-</dd>
-<dt><a href="#LeftPart">LeftPart</a> : <code>object</code></dt>
-<dd><p>A left-hand change part.</p>
-</dd>
-<dt><a href="#RightPart">RightPart</a> : <code>object</code></dt>
-<dd><p>A right-hand change part.</p>
-</dd>
-<dt><a href="#Change">Change</a> : <code>object</code></dt>
-<dd><p>A change.</p>
-</dd>
-<dt><a href="#getPart">getPart</a> ⇒ <code>Part</code></dt>
-<dd><p>Gets a change part.</p>
-</dd>
-<dt><a href="#EncoderContext">EncoderContext</a> : <code>object</code></dt>
-<dd><p>Encoder context</p>
-</dd>
-<dt><a href="#formats">formats</a> : <code>object</code></dt>
-<dd><p>Conversion functions for displaying the diff in different formats.</p>
-</dd>
-<dt><a href="#GnuNormalFormat">GnuNormalFormat</a> ⇒ <code>string</code></dt>
-<dd><p>Formats a diff in GNU normal format.</p>
-</dd>
-</dl>
-
-<a name="myers"></a>
-
-### myers : <code>object</code>
-Main module exports.
-
-**Kind**: global typedef  
-**Properties**
-
-| Name | Type |
-| --- | --- |
-| diff | [<code>diff</code>](#diff) | 
-| formats | [<code>formats</code>](#formats) | 
+- `myers`
+  - [`myers.diff(lhs, rhs, [options])`](#diff)
+  - [`myers.formats`](#formats)
+    - [`GnuNormalFormat`](#formats-gnunormalformat)
+  - [`myers.changed(part)`](#changed)
+- Types
+  - [`Change`](#change)
+  - [`LeftPart`](#leftpart)
+  - [`RightPart`](#rightpart)
 
 <a name="diff"></a>
 
-### diff ⇒ [<code>Array.&lt;Change&gt;</code>](#Change)
-Compare `lhs` to `rhs`.  Changes are compared from left
-to right such that items are deleted from left, or added to right,
-or just otherwise changed between them.
+### myers.diff(lhs, rhs, [options])
 
-**Kind**: global typedef  
-**Returns**: [<code>Array.&lt;Change&gt;</code>](#Change) - An array of change objects  
+Compare `lhs` text to `rhs` text.  Changes are compared from left to right such that items are deleted from left or added to right.
 
-| Param | Type | Default | Description |
-| --- | --- | --- | --- |
-| lhs | <code>string</code> |  | The left-hand source text. |
-| rhs | <code>string</code> |  | The right-hand source text. |
-| [options] | <code>object</code> | <code>{}</code> | Optional settings. |
-| [options.ignoreWhitespace] | <code>boolean</code> | <code>false</code> | Ignores whitespace. |
-| [options.ignoreCase] | <code>boolean</code> | <code>false</code> | Ignores case. |
-| [options.ignore] | <code>boolean</code> | <code>false</code> | Ignores accents. |
-| [options.compare] | <code>string</code> | <code>&quot;lines&quot;</code> | The type of comparison; one of: 'chars', 'words', or 'lines' (default). |
+- `lhs` [`<string>`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#String_type) - The left-hand side text to compare.
+- `rhs` [`<string>`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#String_type) - The right-hand side text to compare.
+- `options` [`<object>`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object) - Diff options.
+  - `ignoreWhitespace` [`<boolean>`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Boolean_type") - Ignores whitespace characters.
+  - `ignoreCase` [`<boolean>`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Boolean_type") - Ignores whitespace characters.
+  - `ignoreAccents` [`<boolean>`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Boolean_type") - Ignores accent characters.
+- Returns: `<`[`Change`](#change)`[]>` - Returns an array of [Change](#change).
 
-**Example**  
-```js
-const myers = require('myers-diff');
-const changes = myers.diff(lhs, rhs);
-```
-<a name="LeftPart"></a>
+<a name="change"></a>
 
-### LeftPart : <code>object</code>
-A left-hand change part.
+### Change
 
-**Kind**: global typedef  
-**Properties**
+An object that describes a change occurrence between the  left-hand text and right-hand text.
 
-| Name | Type | Description |
-| --- | --- | --- |
-| at | <code>integer</code> | The part item identifier.  When comparing lines, it is the _n-th_ line; when comparing words, it is the _n-th_ word; when comparing chars, it is the _n-th_ char. |
-| del | <code>integer</code> | The number of parts deleted from the left. When comparing lines, it is the number of lines deleted; when comparing words, it is the number of words deleted; when comparing chars, it is the number of chars deleted. |
-| pos | <code>integer</code> | The zero-based character position of the part from the original text. |
-| ctx | [<code>EncoderContext</code>](#EncoderContext) | The encoder context. |
+- `lhs` [`<LeftPart>`](#leftpart)- Describes the left-hand change.
+- `rhs` [`<RightPart>`](#rightpart) - Describes the right-hand change.
 
-<a name="RightPart"></a>
+<a name="leftpart"></a>
 
-### RightPart : <code>object</code>
-A right-hand change part.
+### LeftPart
 
-**Kind**: global typedef  
-**Properties**
+Describes a left-hand change occurrence.
 
-| Name | Type | Description |
-| --- | --- | --- |
-| at | <code>integer</code> | The part item identifier.  When comparing lines, it is the _n-th_ line; when comparing words, it is the _n-th_ word; when comparing chars, it is the _n-th_ char. |
-| add | <code>integer</code> | The number of parts added from the right. When comparing lines, it is the number of lines added; when comparing words, it is the number of words added; when comparing chars, it is the number of chars added. |
-| pos | <code>integer</code> | The zero-based character position of the part from the original text. |
-| ctx | [<code>EncoderContext</code>](#EncoderContext) | The encoder context. |
+- `at` [`<number>`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Number_type) - The part item identifier.  When comparing lines, it is the _n-th_ line; when comparing words, it is the _n-th_ word; when comparing chars, it is the _n-th_ char.
+- `del` [`<number>`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Number_type) - The number of parts deleted from the left. When comparing lines, it is the number of lines deleted; when comparing words, it is the number of words deleted; when comparing chars, it is the number of chars deleted.
+- `pos` [`<number>`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Number_type) - The zero-based character position of the part from the original text.
+- `text` [`<string>`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#String_type) - The text that was changed.
 
-<a name="Change"></a>
+<a name="rightpart"></a>
 
-### Change : <code>object</code>
-A change.
+### RightPart
 
-**Kind**: global typedef  
-**Properties**
+Describes a right-hand change occurrence.
 
-| Name | Type | Description |
-| --- | --- | --- |
-| lhs | [<code>LeftPart</code>](#LeftPart) | The left-hand document that was compared. |
-| rhs | [<code>RightPart</code>](#RightPart) | The right-hand document that was compared. |
-
-<a name="getPart"></a>
-
-### getPart ⇒ <code>Part</code>
-Gets a change part.
-
-**Kind**: global typedef  
-**Returns**: <code>Part</code> - The part or `undefined` if `n` is out of bounds.  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| n | <code>integer</code> | The index of the part to get. |
-
-<a name="EncoderContext"></a>
-
-### EncoderContext : <code>object</code>
-Encoder context
-
-**Kind**: global typedef  
-**Properties**
-
-| Name | Type | Description |
-| --- | --- | --- |
-| getPart | [<code>getPart</code>](#getPart) | Gets a part from the [LeftPart](#LeftPart) or [RightPart](#RightPart). |
+- `at` [`<number>`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Number_type) - The part item identifier.  When comparing lines, it is the _n-th_ line; when comparing words, it is the _n-th_ word; when comparing chars, it is the _n-th_ char.
+- `add` [`<number>`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Number_type) - The number of parts added from the right. When comparing lines, it is the number of lines added; when comparing words, it is the number of words added; when comparing chars, it is the number of chars added.
+- `pos` [`<number>`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Number_type) - The zero-based character position of the part from the original text.
+- `text` [`<string>`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#String_type) - The text that was changed.
 
 <a name="formats"></a>
 
-### formats : <code>object</code>
-Conversion functions for displaying the diff in different formats.
+### myers.formats
 
-**Kind**: global typedef  
-**Properties**
+Formatting functions.
 
-| Name | Type |
-| --- | --- |
-| GnuNormalFormat | [<code>GnuNormalFormat</code>](#GnuNormalFormat) | 
+#### GnuNormalFormat(changes)
 
-<a name="GnuNormalFormat"></a>
+Formats an array of [Change](#change) in [GNU Normal Format](https://www.gnu.org/software/diffutils/manual/html_node/Example-Normal.html#Example-Normal).
 
-### GnuNormalFormat ⇒ <code>string</code>
-Formats a diff in GNU normal format.
+- `changes` `<`[`Change`](#change)`[]>` - An array of changes from [myers.diff](#diff).
+- Returns [`<string>`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#String_type) The diff text.
 
-**Kind**: global typedef  
-**Returns**: <code>string</code> - A diff in GNU normal format.  
+<a name="changed"></a>
 
-| Param | Type | Description |
-| --- | --- | --- |
-| changes | [<code>Array.&lt;Change&gt;</code>](#Change) | The array of changes to format. |
+### myers.changed(part)
 
-**Example**  
-```js
-const myers = require('myers-diff');
-console.log(myers.formats.GnuNormalFormat(changes));
-```
+Examines the [`LeftPart`](#leftpart) or [`RightPart`](#rightpart) `part` to determine if was changed.  It is possible for a [Change](#change) to only affect one side or the other, or both.  If changed, it returns `true`, otherwise, it returns `false`.
+
+- `part` `<`[`LeftPart`](#leftpart) | [`RightPart`](#rightpart)`>`- The left-hand part or right-hand part to compare.
+- Returns: [`<boolean>`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Boolean_type") Returns `true` if changed, otherwise, it returns `false`.

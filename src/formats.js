@@ -33,13 +33,13 @@ function GnuNormalFormat(change) {
 
 	nf.push(str.join(''));
 	for (let i = change.lhs.at; i < change.lhs.at + change.lhs.del; ++i) {
-		nf.push('< ' + change.lhs.ctx.getPart(i).text);
+		nf.push('< ' + change.lhs.getPart(i).text);
 	}
 	if (change.rhs.add && change.lhs.del) {
 		nf.push('---');
 	}
 	for (let i = change.rhs.at; i < change.rhs.at + change.rhs.add; ++i) {
-		nf.push('> ' + change.rhs.ctx.getPart(i).text);
+		nf.push('> ' + change.rhs.getPart(i).text);
 	}
 	return nf.join('\n');
 }
