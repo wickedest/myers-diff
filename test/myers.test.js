@@ -12,7 +12,7 @@ describe('#diff', function() {
 	});
 
 	it('should compare one line, no changes', function() {
-		const { changes } = diff(
+		const changes = diff(
 			'the quick red fox jumped',
 			'the quick red fox jumped'
 		);
@@ -20,7 +20,7 @@ describe('#diff', function() {
 	});
 
 	it('should compare two lines, no changes', function() {
-		const { changes } = diff(
+		const changes = diff(
 			'the quick red fox jumped\nover the lazy dog',
 			'the quick red fox jumped\nover the lazy dog'
 		);
@@ -28,7 +28,7 @@ describe('#diff', function() {
 	});
 
 	it('should compare one line changed', function() {
-		const { changes } = diff(
+		const changes = diff(
 			'the quick red fox jumped', 
 			'the quick brown fox jumped'
 		);
@@ -63,7 +63,7 @@ describe('#diff', function() {
 	});
 
 	it('should compare one line added', function() {
-		const { changes } = diff(
+		const changes = diff(
 			'the quick red fox jumped', 
 			'the quick red fox jumped\nover the lazy dog'
 		);
@@ -96,7 +96,7 @@ describe('#diff', function() {
 	});
 
 	it('should compare one line removed', function() {
-		const { changes } = diff(
+		const changes = diff(
 			'the quick red fox jumped\nover the hairy dog',
 			'the quick red fox jumped'
 		);
@@ -130,7 +130,7 @@ describe('#diff', function() {
 	});
 
 	it('should compare over multiple lines', function() {
-		const { changes } = diff(
+		const changes = diff(
 			'the quick\n\nbrown fox\n\n\nover the hairy\n\ndog',
 			'the quick\n\nred fox\n\njumped\n\nover the lazy dog\n\n'
 		);
@@ -229,7 +229,7 @@ describe('#diff', function() {
 	});
 
 	it('should compare both lines with only changes', function() {
-		const { changes } = diff(
+		const changes = diff(
 			'the quick red fox jumped\nover the hairy dog', 
 			'the quick brown fox jumped\nover the lazy dog'
 		);
@@ -255,7 +255,7 @@ describe('#diff', function() {
 	});
 
 	it('should compare an added line', function() {
-		const { changes } = diff(
+		const changes = diff(
 			'',
 			'the\nquick\nred\nfox\njumped\nover\nthe\nlazy\ndog'
 		);
@@ -281,7 +281,7 @@ describe('#diff', function() {
 	});
 
 	it('should compare many lines that repeat', function() {
-		const { changes } = diff(
+		const changes = diff(
 			fs.readFileSync('./test/resources/moons_lhs.txt', 'utf-8'),
 			fs.readFileSync('./test/resources/moons_rhs.txt', 'utf-8')
 		);
@@ -291,7 +291,7 @@ describe('#diff', function() {
 	});
 
 	it('should show a blank line on rhs as being deleted', function() {
-		const { changes } = diff(
+		const changes = diff(
 			'next',
 			''
 		);
@@ -299,7 +299,7 @@ describe('#diff', function() {
 	});
 
 	it('should show a blank line on lhs as being added', function() {
-		const { changes } = diff(
+		const changes = diff(
 			'',
 			'next'
 		);
@@ -307,7 +307,7 @@ describe('#diff', function() {
 	});
 
 	it('should show lhs and rhs blank lines as the same', function() {
-		const { changes } = diff(
+		const changes = diff(
 			'',
 			''
 		);

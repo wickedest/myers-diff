@@ -3,13 +3,12 @@ const { diff, changed } = require('../src/');
 
 describe('compare chars', function() {
 	it('should compare chars at end of string', function() {
-		const d = diff(
+		const changes = diff(
 			'the quick red fox jumped',
 			'the quick red fox swam',
 			{ compare: 'chars' }
 		);
 
-		const { changes } = d;
 		expect(changes.length).to.equal(2);
 		const [ first, second ] = changes;
 
@@ -54,7 +53,7 @@ describe('compare chars', function() {
 	});
 
 	it('should compare chars at start of string', function() {
-		const { changes } = diff(
+		const changes = diff(
 			'the quick red fox jumped',
 			'The quick red fox jumped',
 			{compare: 'chars'}
@@ -81,7 +80,7 @@ describe('compare chars', function() {
 	});
 
 	it('should compare change chars at end of string', function() {
-		const { changes } = diff(
+		const changes = diff(
 			'the quick red fox jumped',
 			'the quick red fox Jumped',
 			{compare: 'chars'}
@@ -107,7 +106,7 @@ describe('compare chars', function() {
 	});
 
 	it('should compare change chars in mid string', function() {
-		const { changes } = diff(
+		const changes = diff(
 			'the quick red fox jumped',
 			'the quick RED fox jumped',
 			{compare: 'chars'}
@@ -134,7 +133,7 @@ describe('compare chars', function() {
 	});
 
 	it('should compare add chars at start of string', function() {
-		const { changes } = diff(
+		const changes = diff(
 			'the quick red fox jumped',
 			'*the quick red fox jumped',
 			{compare: 'chars'}
@@ -161,7 +160,7 @@ describe('compare chars', function() {
 	});
 
 	it('should compare add chars at end of string', function() {
-		const { changes } = diff(
+		const changes = diff(
 			'the quick red fox jumped',
 			'the quick red fox jumped*',
 			{compare: 'chars'}
@@ -188,7 +187,7 @@ describe('compare chars', function() {
 	});
 
 	it('should compare del chars at start of string', function() {
-		const { changes } = diff(
+		const changes = diff(
 			'*the quick red fox jumped',
 			'the quick red fox jumped',
 			{compare: 'chars'}
@@ -215,7 +214,7 @@ describe('compare chars', function() {
 	});
 
 	it('should compare del chars at end of string', function() {
-		const { changes } = diff(
+		const changes = diff(
 			'the quick red fox jumped*',
 			'the quick red fox jumped',
 			{compare: 'chars'}
@@ -242,7 +241,7 @@ describe('compare chars', function() {
 	});
 
 	it('compare chars in middle of sentence', function() {
-		const { changes } = diff(
+		const changes = diff(
 			'the quick red scared fox jumped',
 			'the quick orange fox jumped',
 			{compare: 'chars'}
@@ -330,7 +329,7 @@ describe('compare chars', function() {
 	});
 
 	it('should compare an added line', function() {
-		const { changes } = diff(
+		const changes = diff(
 			'',
 			'the quick red fox jumped',
 			{compare: 'chars'}
@@ -357,7 +356,7 @@ describe('compare chars', function() {
 	});
 
 	it('should compare a deleted line', function() {
-		const { changes } = diff(
+		const changes = diff(
 			'the quick red fox jumped',
 			'',
 			{compare: 'chars'}

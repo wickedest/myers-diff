@@ -46,6 +46,7 @@
   "scripts": {
     "build": "npm run lint && npm run test",
     "test": "nyc --reporter=lcov --reporter=text-summary mocha --recursive",
+    "test:watch": "mocha --recursive --watch",
     "test:nocoverage": "mocha --recursive",
     "lint": "eslint src test"
   }

@@ -3,7 +3,7 @@ const { diff } = require('../src/');
 
 describe('options', function() {
 	it('should ignore whitespace', function() {
-		const { changes } = diff(
+		const changes = diff(
 			'the quick red fox jumped',
 			'the quick red fox  jumped',
 			{
@@ -14,7 +14,7 @@ describe('options', function() {
 	});
 
 	it('should ignore case', function() {
-		const { changes } = diff(
+		const changes = diff(
 			'the quick red fox jumped',
 			'the quick red FOX jumped',
 			{
@@ -25,7 +25,7 @@ describe('options', function() {
 	});
 
 	it('should ignore accents', function() {
-		const { changes } = diff(
+		const changes = diff(
 			'the quick red fox jumped',
 			'the quick réd fóx jumped',
 			{
@@ -36,7 +36,7 @@ describe('options', function() {
 	});
 
 	it('should ignore whitespace, case, and accents', function() {
-		const { changes } = diff(
+		const changes = diff(
 			'the quick red fox jumped',
 			'the quick réd fóx  JUMPED',
 			{

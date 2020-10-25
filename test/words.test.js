@@ -3,7 +3,7 @@ const { diff, formats, changed } = require('../src/');
 
 describe('compare words', function() {
 	it('should compare words at start of string', function() {
-		const { changes } = diff(
+		const changes = diff(
 			'the quick red fox jumped',
 			'The quick red fox jumped',
 			{compare: 'words'}
@@ -42,7 +42,7 @@ describe('compare words', function() {
 	});
 
 	it('should compare words in mid string', function() {
-		const { changes } = diff(
+		const changes = diff(
 			'the quick red fox jumped',
 			'the quick brown fox jumped',
 			{compare: 'words'}
@@ -81,7 +81,7 @@ describe('compare words', function() {
 	});
 
 	it('should compare words at end of string', function() {
-		const { changes } = diff(
+		const changes = diff(
 			'the quick red fox jumped',
 			'the quick red fox swam',
 			{compare: 'words'}
@@ -120,7 +120,7 @@ describe('compare words', function() {
 	});
 
 	it('should compare multiple words added at start of string', function() {
-		const { changes } = diff(
+		const changes = diff(
 			'the quick red fox jumped',
 			'The scared quick red fox jumped',
 			{compare: 'words'}
@@ -160,7 +160,7 @@ describe('compare words', function() {
 	});
 
 	it('should compare multiple words deleted at start of string', function() {
-		const { changes } = diff(
+		const changes = diff(
 			'The scared quick red fox jumped',
 			'the quick red fox jumped',
 			{compare: 'words'}
@@ -200,7 +200,7 @@ describe('compare words', function() {
 	});
 
 	it('should compare an added line', function() {
-		const { changes } = diff(
+		const changes = diff(
 			'',
 			'The quick red fox jumped',
 			{compare: 'words'}
@@ -241,7 +241,7 @@ describe('compare words', function() {
 	});
 
 	it('should compare a deleted line', function() {
-		const { changes } = diff(
+		const changes = diff(
 			'The quick red fox jumped',
 			'',
 			{compare: 'words'}
