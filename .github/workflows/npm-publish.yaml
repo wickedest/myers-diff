@@ -1,8 +1,9 @@
 name: npm-publish
 
 on:
-  tags:
-    - '*'
+  create:
+    tags:
+      - v*
 
 jobs:
   build:
