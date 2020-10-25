@@ -23,10 +23,9 @@ class Encoder {
 	}
 
 	getCode(line) {
-		return this.diff_codes[line];
-	}
-
-	newCode(line) {
+		if (this.diff_codes[line]) {
+			return this.diff_codes[line];
+		}
 		this.code = this.code + 1;
 		this.diff_codes[line] = this.code;
 		return this.code;
@@ -70,10 +69,7 @@ class EncodeContext {
 			if (options.ignoreAccents) {
 				line = line.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
 			}
-			let aCode = encoder.getCode(line);
-			if (aCode === undefined) {
-				aCode = encoder.newCode(line);
-			}
+			const aCode = encoder.getCode(line);
 			this._codes[count] = aCode;
 			this._parts.push(part);
 			count += 1;
@@ -99,47 +95,47 @@ class EncodeContext {
 
 class Myers {
 	static compareLCS(lhsCtx, rhsCtx, callback) {
-		let lhs_start = 0;
-		let rhs_start = 0;
-		let lhs_line = 0;
-		let rhs_line = 0;
+		let lhsStart = 0;
+		let rhsStart = 0;
+		let lhsLine = 0;
+		let rhsLine = 0;
 
-		while (lhs_line < lhsCtx.length || rhs_line < rhsCtx.length) {
-			if ((lhs_line < lhsCtx.length) && (!lhsCtx.modified[lhs_line])
-				&& (rhs_line < rhsCtx.length) && (!rhsCtx.modified[rhs_line])) {
+		while (lhsLine < lhsCtx.length || rhsLine < rhsCtx.length) {
+			if ((lhsLine < lhsCtx.length) && (!lhsCtx.modified[lhsLine])
+				&& (rhsLine < rhsCtx.length) && (!rhsCtx.modified[rhsLine])) {
 				// equal lines
-				lhs_line++;
-				rhs_line++;
+				lhsLine++;
+				rhsLine++;
 			}
 			else {
 				// maybe deleted and/or inserted lines
-				lhs_start = lhs_line;
-				rhs_start = rhs_line;
-				while ((lhs_line < lhsCtx.length)
-					&& (rhs_line >= rhsCtx.length || lhsCtx.modified[lhs_line])) {
-					lhs_line++;
+				lhsStart = lhsLine;
+				rhsStart = rhsLine;
+				while ((lhsLine < lhsCtx.length)
+					&& (rhsLine >= rhsCtx.length || lhsCtx.modified[lhsLine])) {
+					lhsLine++;
 				}
-				while ((rhs_line < rhsCtx.length)
-					&& (lhs_line >= lhsCtx.length || rhsCtx.modified[rhs_line])) {
-					rhs_line++;
+				while ((rhsLine < rhsCtx.length)
+					&& (lhsLine >= lhsCtx.length || rhsCtx.modified[rhsLine])) {
+					rhsLine++;
 				}
 				// istanbul ignore else
-				if ((lhs_start < lhs_line) || (rhs_start < rhs_line)) {
-					const lat = Math.min(lhs_start, (lhsCtx.length) ? lhsCtx.length - 1 : 0);
-					const rat = Math.min(rhs_start, (rhsCtx.length) ? rhsCtx.length - 1 : 0);
-					const lpart = lhsCtx._parts[Math.min(lhs_start, lhsCtx.length - 1)];
-					const rpart = rhsCtx._parts[Math.min(rhs_start, rhsCtx.length - 1)];
+				if ((lhsStart < lhsLine) || (rhsStart < rhsLine)) {
+					const lat = Math.min(lhsStart, (lhsCtx.length) ? lhsCtx.length - 1 : 0);
+					const rat = Math.min(rhsStart, (rhsCtx.length) ? rhsCtx.length - 1 : 0);
+					const lpart = lhsCtx._parts[Math.min(lhsStart, lhsCtx.length - 1)];
+					const rpart = rhsCtx._parts[Math.min(rhsStart, rhsCtx.length - 1)];
 
 					const item = {
 						lhs: {
 							at: lat,
-							del: lhs_line - lhs_start,
+							del: lhsLine - lhsStart,
 							pos: lpart ? lpart.pos : null,
 							text: lpart ? lpart.text : null
 						},
 						rhs: {
 							at: rat,
-							add: rhs_line - rhs_start,
+							add: rhsLine - rhsStart,
 							pos: rpart ? rpart.pos : null,
 							text: rpart ? rpart.text : null
 						}
@@ -356,11 +352,6 @@ class Myers {
 		rhsCtx.finish();
 
 		return changes;
-		// return {
-		// 	changes,
-		// 	lhsCtx,
-		// 	rhsCtx
-		// };
 	}
 }
 
