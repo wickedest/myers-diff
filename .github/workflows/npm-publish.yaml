@@ -1,0 +1,39 @@
+name: npm-publish
+
+on:
+    tags:
+      - '*'
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Git checkout
+        uses: actions/checkout@v2
+
+      - name: Setup node
+        uses: actions/setup-node@v1
+        with:
+          node-version: 14
+          registry-url: https://registry.npmjs.org
+
+      - name: Install dependencies
+        run: npm install
+        env:
+          CI: true
+
+      - name: Build
+        run: npm run build --if-present
+
+      - name: Bump version
+        run: npm version patch
+
+      - name: Push tags to git
+        run: git push --follow-tags
+
+      - name: Publish to npm
+        run: npm publish --access public --tag ${{ GITHUB_REF }}
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
