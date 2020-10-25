@@ -165,17 +165,17 @@ class Myers {
 			maxd = ((lhsUpper - lhsLower + rhsUpper - rhsLower) / 2) + 1,
 			ret = {x:0, y:0}, d, k, x, y;
 
-		vectorD[ offset_down + kdown + 1 ] = lhsLower;
-		vectorU[ offset_up + kup - 1 ] = lhsUpper;
+		vectorD[offset_down + kdown + 1] = lhsLower;
+		vectorU[offset_up + kup - 1] = lhsUpper;
 		for (d = 0; d <= maxd; ++d) {
 			for (k = kdown - d; k <= kdown + d; k += 2) {
 				if (k === kdown - d) {
-					x = vectorD[ offset_down + k + 1 ];//down
+					x = vectorD[offset_down + k + 1];//down
 				}
 				else {
-					x = vectorD[ offset_down + k - 1 ] + 1;//right
-					if ((k < (kdown + d)) && (vectorD[ offset_down + k + 1 ] >= x)) {
-						x = vectorD[ offset_down + k + 1 ];//down
+					x = vectorD[offset_down + k - 1] + 1;//right
+					if ((k < (kdown + d)) && (vectorD[offset_down + k + 1] >= x)) {
+						x = vectorD[offset_down + k + 1];//down
 					}
 				}
 				y = x - k;
@@ -261,17 +261,17 @@ class Myers {
 			}
 		}
 		else {
-			const sms = Myers.getShortestMiddleSnake(
+			const { x, y } = Myers.getShortestMiddleSnake(
 				lhsCtx, lhsLower, lhsUpper,
 				rhsCtx, rhsLower, rhsUpper, 
 				vectorU, vectorD);
 			Myers.getLongestCommonSubsequence(
-				lhsCtx, lhsLower, sms.x, 
-				rhsCtx, rhsLower, sms.y,
+				lhsCtx, lhsLower, x, 
+				rhsCtx, rhsLower, y,
 				vectorU, vectorD);
 			Myers.getLongestCommonSubsequence(
-				lhsCtx, sms.x, lhsUpper,
-				rhsCtx, sms.y, rhsUpper,
+				lhsCtx, x, lhsUpper,
+				rhsCtx, y, rhsUpper,
 				vectorU, vectorD);
 		}
 	}
