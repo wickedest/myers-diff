@@ -1,3 +1,5 @@
+name: npm-publish
+
 on: 
   workflow_dispatch:
     inputs:
