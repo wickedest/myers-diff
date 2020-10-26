@@ -25,6 +25,6 @@ jobs:
           echo "PKG_VERSION=$VERSION" >> $GITHUB_ENV
 
       - name: Add dist-tag
-        run: npm dist-tag add myers-diff@$PKG_VERSION latest
+        run: npm dist-tag add "myers-diff@$PKG_VERSION" latest
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
