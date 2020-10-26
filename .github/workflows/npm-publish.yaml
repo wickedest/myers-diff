@@ -9,6 +9,15 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Setup node
+        uses: actions/setup-node@v1
+        with:
+          node-version: 14
+          registry-url: https://registry.npmjs.org
+
+      - name: Git checkout
+        uses: actions/checkout@v2
+
       - name: Get package version
         run: |
           export VERSION=`cat package.json | grep version | sed -E 's/.*: "(.*)",/\1/'`
@@ -24,8 +33,8 @@ jobs:
         #   echo ${{ DIST_TAG }}
         #   echo ${{ PKG_VERSION }}
 
-      # - name: Git checkout
-      #   uses: actions/checkout@v2
+      - name: Git checkout
+        uses: actions/checkout@v2
 
       # - name: Setup node
       #   uses: actions/setup-node@v1
