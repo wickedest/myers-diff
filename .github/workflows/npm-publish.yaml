@@ -32,10 +32,10 @@ jobs:
       - name: Build
         run: npm run build --if-present
 
-      - name: Tag repo with ${{ DIST_TAG }}
+      - name: Tag repo with $DIST_TAG
         run: |
-          git tag ${{ DIST_TAG }}
-          git push origin ${{ DIST_TAG }}
+          git tag $DIST_TAG
+          git push origin $DIST_TAG
 
-      - name: Publish to npm with dist-tag ${{ PKG_VERSION }}
-        run: npm publish --access public --tag ${{ PKG_VERSION }}
+      - name: Publish to npm with dist-tag $PKG_VERSION
+        run: npm publish --access public --tag $PKG_VERSION
