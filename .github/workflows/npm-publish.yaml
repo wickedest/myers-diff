@@ -17,9 +17,7 @@ jobs:
 
       - name: Debug environment
         run: |
-          echo $DIST_TAG
           echo ${{ DIST_TAG }}
-          echo $PKG_VERSION
           echo ${{ PKG_VERSION }}
 
       # - name: Git checkout
