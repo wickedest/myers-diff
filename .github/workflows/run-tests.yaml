@@ -1,6 +1,14 @@
 name: Run tests
 
-on: [push, pull_request]
+# on: [push, pull_request]
+
+on:
+  push:
+    branches-ignore:
+      - 'master'
+    tags-ignore:
+      - 'v*'
+  pull_request:
 
 jobs:
   build:
