@@ -8,7 +8,6 @@ on:
       - 'master'
     tags-ignore:
       - 'v*'
-  pull_request:
 
 jobs:
   build:

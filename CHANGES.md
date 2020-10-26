@@ -1,5 +1,8 @@
 # Changes
 
+## 2.0.1
+* patch: removed superfluous newline from the GNU normal format
+
 ## 2.0.0
 Major interface change.
 
