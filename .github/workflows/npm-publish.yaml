@@ -16,9 +16,10 @@ jobs:
           echo "DIST_TAG=v$VERSION" >> $GITHUB_ENV
 
       - name: Debug environment
-        run: |
-          echo ${{ DIST_TAG }}
-          echo ${{ PKG_VERSION }}
+        run: echo $VERSION
+        # run: |
+        #   echo ${{ DIST_TAG }}
+        #   echo ${{ PKG_VERSION }}
 
       # - name: Git checkout
       #   uses: actions/checkout@v2
