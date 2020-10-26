@@ -35,8 +35,7 @@ describe('compare words', function() {
 				'1c1',
 				'< the',
 				'---',
-				'> The',
-				''
+				'> The'
 			].join('\n')
 		);
 	});
@@ -74,8 +73,7 @@ describe('compare words', function() {
 				'3c3',
 				'< red',
 				'---',
-				'> brown',
-				''
+				'> brown'
 			].join('\n')
 		);
 	});
@@ -113,8 +111,7 @@ describe('compare words', function() {
 				'5c5',
 				'< jumped',
 				'---',
-				'> swam',
-				''
+				'> swam'
 			].join('\n')
 		);
 	});
@@ -153,8 +150,7 @@ describe('compare words', function() {
 				'< the',
 				'---',
 				'> The',
-				'> scared',
-				''
+				'> scared'
 			].join('\n')
 		);
 	});
@@ -193,8 +189,7 @@ describe('compare words', function() {
 				'< The',
 				'< scared',
 				'---',
-				'> the',
-				''
+				'> the'
 			].join('\n')
 		);
 	});
@@ -234,8 +229,7 @@ describe('compare words', function() {
 				'> quick',
 				'> red',
 				'> fox',
-				'> jumped',
-				''
+				'> jumped'
 			].join('\n')
 		);
 	});
@@ -275,8 +269,7 @@ describe('compare words', function() {
 				'< quick',
 				'< red',
 				'< fox',
-				'< jumped',
-				''
+				'< jumped'
 			].join('\n')
 		);
 	});

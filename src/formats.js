@@ -50,7 +50,7 @@ var formats = {
 		for (i = 0; i < changes.length; ++i) {
 			out.push(GnuNormalFormat(changes[i]));
 		}
-		return out.join('\n') + '\n';
+		return out.join('\n');
 	}
 }
 
