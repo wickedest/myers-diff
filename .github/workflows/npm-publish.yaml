@@ -14,6 +14,8 @@ jobs:
           echo "::set-env name=DIST_TAG::v$VERSION"
 
   publish:
+    runs-on: ubuntu-latest
+
     steps:
       - name: Git checkout
         uses: actions/checkout@v2
