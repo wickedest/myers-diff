@@ -3,6 +3,10 @@ name: Publish to npm
 on: 
   workflow_dispatch:
     inputs:
+      tag:
+        description: 'NPM Tag'
+        required: false
+        default: 'next'
 
 jobs:
   tag-and-publish:
@@ -38,7 +42,7 @@ jobs:
           git tag $DIST_TAG
           git push origin $DIST_TAG
 
-      - name: Publish to npm with dist-tag $PKG_VERSION
-        run: npm publish --access public
+      - name: Publish to npm with dist-tag next
+        run: npm publish --access public --tag ${{ github.event.inputs.npmtag }}
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
