@@ -12,11 +12,15 @@ jobs:
       - name: Get package version
         run: |
           export VERSION=`cat package.json | grep version | sed -E 's/.*: "(.*)",/\1/'`
-          echo "PKG_VERSION=$VERSION" >> $GITHUB_ENV
-          echo "DIST_TAG=v$VERSION" >> $GITHUB_ENV
+          echo $VERSION
+          echo ${{ VERSION }}
 
       - name: Debug environment
-        run: echo $VERSION
+        run: echo "version $VERSION"
+        run: echo "version ${{ VERSION }}"
+
+          # echo "PKG_VERSION=$VERSION" >> $GITHUB_ENV
+          # echo "DIST_TAG=v$VERSION" >> $GITHUB_ENV
         # run: |
         #   echo ${{ DIST_TAG }}
         #   echo ${{ PKG_VERSION }}
