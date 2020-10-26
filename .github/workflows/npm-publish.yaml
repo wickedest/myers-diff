@@ -27,7 +27,6 @@ jobs:
 
       - name: Debug environment
         run: |
-          $PKG_VERSION
           echo PKG_VERSION: $PKG_VERSION
 
       # - name: Debug environment
