@@ -15,27 +15,34 @@ jobs:
           echo "PKG_VERSION=$VERSION" >> $GITHUB_ENV
           echo "DIST_TAG=v$VERSION" >> $GITHUB_ENV
 
-      - name: Git checkout
-        uses: actions/checkout@v2
-
-      - name: Setup node
-        uses: actions/setup-node@v1
-        with:
-          node-version: 14
-          registry-url: https://registry.npmjs.org
-
-      - name: Install dependencies
-        run: npm install
-        env:
-          CI: true
-
-      - name: Build
-        run: npm run build --if-present
-
-      - name: Tag repo with $DIST_TAG
+      - name: Debug environment
         run: |
-          git tag $DIST_TAG
-          git push origin $DIST_TAG
+          echo $DIST_TAG
+          echo ${{ DIST_TAG }}
+          echo $PKG_VERSION
+          echo ${{ PKG_VERSION }}
 
-      - name: Publish to npm with dist-tag $PKG_VERSION
-        run: npm publish --access public --tag $PKG_VERSION
+      # - name: Git checkout
+      #   uses: actions/checkout@v2
+
+      # - name: Setup node
+      #   uses: actions/setup-node@v1
+      #   with:
+      #     node-version: 14
+      #     registry-url: https://registry.npmjs.org
+
+      # - name: Install dependencies
+      #   run: npm install
+      #   env:
+      #     CI: true
+
+      # - name: Build
+      #   run: npm run build --if-present
+
+      # - name: Tag repo with $DIST_TAG
+      #   run: |
+      #     git tag $DIST_TAG
+      #     git push origin $DIST_TAG
+
+      # - name: Publish to npm with dist-tag $PKG_VERSION
+      #   run: npm publish --access public --dry-run
