@@ -40,3 +40,5 @@ jobs:
 
       - name: Publish to npm with dist-tag $PKG_VERSION
         run: npm publish --access public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
