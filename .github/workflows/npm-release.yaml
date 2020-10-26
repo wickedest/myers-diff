@@ -25,7 +25,7 @@ jobs:
 
       - name: Update dist-tag
         run: |
-          npm dist-tag add @wickedest/myers-diff@${PKG_VERSION} latest
+          npm dist-tag add myers-diff@${PKG_VERSION} latest
           npm dist-tag rm next
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
