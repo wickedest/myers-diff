@@ -56,8 +56,7 @@ describe('#diff', function() {
 				'1c1',
 				'< the quick red fox jumped',
 				'---',
-				'> the quick brown fox jumped',
-				''
+				'> the quick brown fox jumped'
 			].join('\n')
 		);
 	});
@@ -89,8 +88,7 @@ describe('#diff', function() {
 		expect(formats.GnuNormalFormat(changes)).to.equal(
 			[
 				'1a2',
-				'> over the lazy dog',
-				''
+				'> over the lazy dog'
 			].join('\n')
 		);
 	});
@@ -123,8 +121,7 @@ describe('#diff', function() {
 		expect(formats.GnuNormalFormat(changes)).to.equal(
 			[
 				'2d1',
-				'< over the hairy dog',
-				''
+				'< over the hairy dog'
 			].join('\n')
 		);
 	});
@@ -222,8 +219,7 @@ describe('#diff', function() {
 				'> over the lazy dog',
 				'> ',
 				'8d9',
-				'< dog',
-				''
+				'< dog'
 			].join('\n')
 		);
 	});
@@ -295,7 +291,7 @@ describe('#diff', function() {
 			'next',
 			''
 		);
-		expect(formats.GnuNormalFormat(changes)).to.equal('1d1\n< next\n');
+		expect(formats.GnuNormalFormat(changes)).to.equal('1d1\n< next');
 	});
 
 	it('should show a blank line on lhs as being added', function() {
@@ -303,7 +299,7 @@ describe('#diff', function() {
 			'',
 			'next'
 		);
-		expect(formats.GnuNormalFormat(changes)).to.equal('1a1\n> next\n');
+		expect(formats.GnuNormalFormat(changes)).to.equal('1a1\n> next');
 	});
 
 	it('should show lhs and rhs blank lines as the same', function() {
