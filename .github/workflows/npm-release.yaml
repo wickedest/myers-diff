@@ -1,4 +1,4 @@
-name: Publish to npm
+name: Release latest on npm
 
 on: 
   workflow_dispatch:
@@ -18,25 +18,13 @@ jobs:
       - name: Git checkout
         uses: actions/checkout@v2
 
-      - name: Install dependencies
-        run: npm install
-        env:
-          CI: true
-
       - name: Get package version
         run: |
           export VERSION=`cat package.json | grep version | sed -E 's/.*: "(.*)",/\1/'`
           echo $VERSION
           echo "PKG_VERSION=$VERSION" >> $GITHUB_ENV
-          echo "DIST_TAG=v$VERSION" >> $GITHUB_ENV
 
-      - name: Build
-        run: npm run build --if-present
-
-      - name: Tag repo with $DIST_TAG
-        run: |
-          git tag $DIST_TAG
-          git push origin $DIST_TAG
-
-      - name: Publish to npm with dist-tag $PKG_VERSION
-        run: npm publish --access public
+      - name: Add dist-tag
+        run: npm dist-tag add myers-diff@$PKG_VERSION latest
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
