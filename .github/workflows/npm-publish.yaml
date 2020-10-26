@@ -17,7 +17,6 @@ jobs:
 
       - name: Debug environment
         run: |
-          echo "version $VERSION"
           echo "version ${{ VERSION }}"
 
         # echo "PKG_VERSION=$VERSION" >> $GITHUB_ENV
