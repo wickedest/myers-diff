@@ -1,7 +1,7 @@
 {
   "name": "myers-diff",
   "author": "Jamie Peabody",
-  "version": "2.0.0-rc2",
+  "version": "2.0.0",
   "description": "Implementation of the longest common subsequence (diff) algorithm.",
   "license": "Apache-2.0",
   "main": "src/index.js",
