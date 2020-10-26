@@ -16,11 +16,12 @@ jobs:
           echo ${{ VERSION }}
 
       - name: Debug environment
-        run: echo "version $VERSION"
-        run: echo "version ${{ VERSION }}"
+        run: |
+          echo "version $VERSION"
+          echo "version ${{ VERSION }}"
 
-          # echo "PKG_VERSION=$VERSION" >> $GITHUB_ENV
-          # echo "DIST_TAG=v$VERSION" >> $GITHUB_ENV
+        # echo "PKG_VERSION=$VERSION" >> $GITHUB_ENV
+        # echo "DIST_TAG=v$VERSION" >> $GITHUB_ENV
         # run: |
         #   echo ${{ DIST_TAG }}
         #   echo ${{ PKG_VERSION }}
