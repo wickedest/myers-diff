@@ -273,4 +273,31 @@ describe('compare words', function() {
 			].join('\n')
 		);
 	});
+
+	it('should compare arrays', function() {
+		const changes = diff(
+			[ 1, 2, 3, 7 ],
+			[ 1, 2, 3, 4, 5, 6, 7 ],
+			{compare: 'words'}
+		);
+
+		expect(changes.length).to.equal(1);
+		const [ first ] = changes;
+
+		expect(first.lhs).to.deep.include({
+			at: 0, // part
+			del: 1, // parts deleted
+			pos: 0, // index
+			text: [ 1, 2, 3, 7 ],
+			length: 4 // chars
+		});
+
+		expect(first.rhs).to.deep.include({
+			at: 0,
+			add: 1,
+			pos: 0,
+			text: [ 1, 2, 3, 4, 5, 6, 7 ],
+			length: 7
+		})
+	});
 });

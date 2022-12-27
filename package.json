@@ -23,7 +23,6 @@
     "url": "https://github.com/wickedest/myers-diff/issues"
   },
   "homepage": "https://github.com/wickedest/myers-diff",
-  "dependencies": {},
   "devDependencies": {
     "chai": "^4.2.0",
     "eslint": "^7.11.0",

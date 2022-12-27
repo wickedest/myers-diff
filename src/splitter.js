@@ -22,8 +22,14 @@ function Splitter(text, ch) {
 				if (start >= text.length) {
 					return null;
 				}
+				let ptext;
+				if (Array.isArray(text)) {
+					ptext = text[start];
+				} else {
+					ptext = text.charAt(start);
+				}
 				const part = {
-					text: text.charAt(start),
+					text: ptext,
 					pos: start
 				};
 				start += 1;
@@ -35,8 +41,15 @@ function Splitter(text, ch) {
 				// "\n\n", the `start` is set to `pos + 1` below, which is one
 				// after the first "\n" of the pair.  it would also be split.
 				if (start <= text.length) {
+					let ptext;
+					if (Array.isArray(text)) {
+						ptext = text.slice(start)
+					} else {
+						ptext = text.substr(start)
+					}
+
 					const part = {
-						text: text.substr(start),
+						text: ptext,
 						pos: start
 					};
 					pos = -1;

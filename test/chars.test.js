@@ -381,4 +381,31 @@ describe('compare chars', function() {
 			length: 0 // chars
 		});
 	});
+
+	it('should compare arrays', function() {
+		const changes = diff(
+			[ 1, 2, 3, 7 ],
+			[ 1, 2, 3, 4, 5, 6, 7 ],
+			{compare: 'chars'}
+		);
+
+		expect(changes.length).to.equal(1);
+		const [ first ] = changes;
+
+		expect(first.lhs).to.deep.include({
+			at: 3, // part
+			del: 0, // parts deleted
+			pos: 3, // index
+			text: 7,
+			length: 0 // chars
+		});
+
+		expect(first.rhs).to.deep.include({
+			at: 3,
+			add: 3,
+			pos: 3,
+			text: 4,
+			length: 3
+		})
+	});
 });
