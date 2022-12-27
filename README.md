@@ -83,11 +83,12 @@ for (const change of changes) {
 
 ### myers.diff(lhs, rhs, [options])
 
-Compare `lhs` text to `rhs` text.  Changes are compared from left to right such that items are deleted from left or added to right.
+Compare `lhs` text to `rhs` text.  `lhs` and `rhs` can also be an arbitrary array if `compare` is set to `'chars'`.  Changes are compared from left to right such that items are deleted from left or added to right.
 
 - `lhs` [`<string>`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#String_type) - The left-hand side text to compare.
 - `rhs` [`<string>`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#String_type) - The right-hand side text to compare.
 - `options` [`<object>`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object) - Diff options.
+  - `compare` [`<string>`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#String_type) - Comparison mode (`'lines'`, `'words'`, `'chars'`).
   - `ignoreWhitespace` [`<boolean>`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Boolean_type") - Ignores whitespace characters.
   - `ignoreCase` [`<boolean>`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Boolean_type") - Ignores whitespace characters.
   - `ignoreAccents` [`<boolean>`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Boolean_type") - Ignores accent characters.
